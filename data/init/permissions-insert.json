@@ -1,0 +1,114 @@
+db.permissions.insert(
+  [
+    {
+      "_id" : "idashboard.create",
+      "name" : "Create Dashboard",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.update",
+      "name" : "Update Dashboard",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.delete",
+      "name" : "Delete Dashboard",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.view",
+      "name" : "View Dashboard",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+
+    {
+      "_id" : "idashboard.project.create",
+      "name" : "Create Dashboard Project",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.project.update",
+      "name" : "Update Dashboard Project",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.project.delete",
+      "name" : "Delete Dashboard Project",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.project.view",
+      "name" : "View Dashboard Project",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+
+    {
+      "_id" : "idashboard.external.data.update",
+      "name" : "Upload external data",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+
+    {
+      "_id" : "idashboard.datasource.create",
+      "name" : "Create Dashboard Datasource",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.datasource.update",
+      "name" : "Update Dashboard Datasource",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.datasource.delete",
+      "name" : "Delete Dashboard Datasource",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.datasource.view",
+      "name" : "View Dashboard Datasource",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+
+    {
+      "_id" : "idashboard.chart.create",
+      "name" : "Create Dashboard Chart",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.chart.update",
+      "name" : "Update Dashboard Chart",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.chart.delete",
+      "name" : "Delete Dashboard Chart",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.chart.view",
+      "name" : "View Dashboard Chart",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+
+    {
+      "_id" : "idashboard.page.create",
+      "name" : "Create Dashboard Page",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.page.update",
+      "name" : "Update Dashboard Page",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.page.delete",
+      "name" : "Delete Dashboard Page",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    },
+    {
+      "_id" : "idashboard.page.view",
+      "name" : "View Dashboard Page",
+      "_class" : "com.cognizant.leap.users.beans.Permission"
+    }
+  ]
+);

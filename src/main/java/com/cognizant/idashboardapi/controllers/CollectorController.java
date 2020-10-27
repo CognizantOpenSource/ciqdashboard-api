@@ -3,13 +3,9 @@ package com.cognizant.idashboardapi.controllers;
 import com.cognizant.idashboardapi.common.Constants;
 import com.cognizant.idashboardapi.errors.InvalidDetailsException;
 import com.cognizant.idashboardapi.errors.LeapResponse;
-import com.cognizant.idashboardapi.models.*;
-import com.cognizant.idashboardapi.models.chart.data.ChartData;
-import com.cognizant.idashboardapi.models.chart.data.DataGridRow;
+import com.cognizant.idashboardapi.models.FieldType;
 import com.cognizant.idashboardapi.models.db.view.ViewDetails;
-import com.cognizant.idashboardapi.services.CollectorDetailsService;
 import com.cognizant.idashboardapi.services.CollectorService;
-import com.cognizant.idashboardapi.services.ValidatorService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,10 +28,6 @@ import static org.springframework.http.HttpStatus.*;
 public class CollectorController {
     @Autowired
     CollectorService collectorService;
-    @Autowired
-    CollectorDetailsService collectorDetailsService;
-    @Autowired
-    ValidatorService validatorService;
 
     @GetMapping("/collection-names")
     public Set<String> getCollectionNames() {
@@ -123,38 +115,4 @@ public class CollectorController {
                 request.getRequestURI()));
     }
 
-    //@PostMapping("/chart/drill-down-chart")
-    public List<ChartData> getChart(@RequestBody DrillDownChartAggregation chartAggregation,
-                                    @RequestParam(name = "collector-name") String collectorName) {
-        CollectorDetails collectorDetails = collectorDetailsService.assertOrGetByName(collectorName);
-        Set<String> fields = getFieldsByCollection(collectorDetails.getCollectionName());
-        DrillDownChartAggregation validChartAggregation = validatorService.validateChartAggregation(chartAggregation, fields);
-        return collectorService.getChart(validChartAggregation, collectorDetails.getCollectionName());
-    }
-    // @PostMapping("/chart/table")
-    public List<DataGridRow> getTable(@RequestBody TableAggregation tableAggregation,
-                                      @RequestParam(name = "collector-name") String collectorName) {
-        CollectorDetails collectorDetails = collectorDetailsService.assertOrGetByName(collectorName);
-        Set<String> fields = getFieldsByCollection(collectorDetails.getCollectionName());
-        TableAggregation validTableAggregation = validatorService.validateTableAggregation(tableAggregation, fields);
-        return collectorService.getTable(validTableAggregation, collectorDetails.getCollectionName());
-    }
-    //@PostMapping("/chart/bar-chart")
-    @Validated
-    public List<ChartData> getBarChart(@Valid @RequestBody BarChartAggregation chartAggregation,
-                                       @RequestParam(name = "collector-name") String collectorName) {
-        CollectorDetails collectorDetails = collectorDetailsService.assertOrGetByName(collectorName);
-        Set<String> fields = getFieldsByCollection(collectorDetails.getCollectionName());
-        BarChartAggregation validBarChartAggregation = validatorService.validateBarChartAggregation(chartAggregation, fields);
-        return collectorService.getBarChart(validBarChartAggregation, collectorDetails.getCollectionName());
-    }
-    //@PostMapping("/chart/line-chart")
-    @Validated
-    public List<ChartData> getLineChart(@Valid @RequestBody LineChartAggregation lineChartAggregation,
-                                        @RequestParam(name = "collector-name") String collectorName) {
-        CollectorDetails collectorDetails = collectorDetailsService.assertOrGetByName(collectorName);
-        Set<String> fields = getFieldsByCollection(collectorDetails.getCollectionName());
-        DrillDownChartAggregation chartAggregation = validatorService.validateLineChartAggregation(lineChartAggregation.getChartAggregation(), fields);
-        return collectorService.getChart(chartAggregation, collectorDetails.getCollectionName());
-    }
 }

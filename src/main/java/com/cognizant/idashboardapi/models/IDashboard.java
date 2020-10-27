@@ -21,5 +21,6 @@ public class IDashboard extends BaseModel {
     @Size(min = 4, message = "ProjectName minimum characters should be '4' ")
     private String projectName;
     private boolean active;
+    private Boolean openAccess = false;
     private List<IDPageConfig> pages;
 }

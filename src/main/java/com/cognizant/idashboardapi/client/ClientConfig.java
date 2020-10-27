@@ -15,9 +15,22 @@ public class ClientConfig {
 
     @Value("${app.npl.api.client.url}")
     private String appNPLApiClientURL;
+    @Value("${app.auth.client.url}")
+    private String appAuthClientURL;
 
     @Bean
-    public NLPApiClient getAuthApiClient(){
+    public AuthApiClient getAuthApiClient(){
+        return Feign.builder()
+                .contract(new SpringMvcContract())
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .logger(new Slf4jLogger(AuthApiClient.class))
+                .logLevel(Logger.Level.FULL)
+                .target(AuthApiClient.class, appAuthClientURL);
+    }
+
+    @Bean
+    public NLPApiClient getNLPApiClient(){
         return Feign.builder()
                 .contract(new SpringMvcContract())
                 .encoder(new JacksonEncoder())

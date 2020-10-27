@@ -186,6 +186,14 @@ public class CollectorRepositoryImpl {
         return aggregationResults.getMappedResults();
     }
 
+    public List<LinkedHashMap> getBarGaugeChart(BarChartAggregation validateBarGaugeChartAggregation, String collectionName) {
+        if (!getCollectionNames().contains(collectionName))
+            throw new InvalidDetailsException(String.format(COLLECTION_S_NOT_AVAILABLE_IN_DB, collectionName));
+        Aggregation barChartAggregation = aggregationUtil.getBarGaugeChartAggregation(validateBarGaugeChartAggregation, getFieldsAndTypesByCollection(collectionName));
+        AggregationResults<LinkedHashMap> aggregationResults = template.aggregate(barChartAggregation, collectionName, LinkedHashMap.class);
+        return aggregationResults.getMappedResults();
+    }
+
     /**
      * Getting Table based on provided chart aggregation
      *

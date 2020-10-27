@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IDashboardProjectService {
@@ -24,6 +25,10 @@ public class IDashboardProjectService {
 
     public List<IDashboardProject> get(List<String> ids) {
         return repository.findByIds(ids);
+    }
+
+    public List<String> getNamesByIds(List<String> ids) {
+        return repository.findByIds(ids).stream().map(IDashboardProject::getName).collect(Collectors.toList());
     }
 
     public Optional<IDashboardProject> get(String id) {

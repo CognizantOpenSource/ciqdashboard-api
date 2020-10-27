@@ -115,6 +115,15 @@ public class AggregationUtil {
         return Aggregation.newAggregation(operations);
     }
 
+    public Aggregation getBarGaugeChartAggregation(BarChartAggregation aggregation, Map<String, String> collection) {
+        List<AggregationOperation> operations = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(aggregation.getFilters())) {
+            operations.addAll(filterComponent.getMatchOperation(aggregation.getFilters(), collection));
+        }
+        operations.add(Aggregation.project().andExclude("_id"));
+        return Aggregation.newAggregation(operations);
+    }
+
     private AggregationOperation getLimit(int limit) {
         return Aggregation.limit(limit);
     }
@@ -139,11 +148,11 @@ public class AggregationUtil {
      * @return ProjectionOperation
      */
     private AggregationOperation getProjection(@NonNull List<String> fields, @NonNull Map<String, Object> fieldsWithAlias, @NonNull List<String> excludeFields) {
-        ProjectionOperation project;
+        ProjectionOperation project = Aggregation.project();
         if (!CollectionUtils.isEmpty(fields)) {
-            project = Aggregation.project(fields.toArray(new String[fields.size()]));
-        } else {
-            project = Aggregation.project();
+            for (String field : fields) {
+                project = project.and(ConditionalOperators.ifNull(field).then(null)).as(field);
+            }
         }
 
         if (!CollectionUtils.isEmpty(fieldsWithAlias)) {
@@ -153,7 +162,7 @@ public class AggregationUtil {
                 if (fieldName instanceof String && ((String) fieldName).contains("concat("))
                     project = project.andExpression(((String) fieldName)).as(entry.getKey());
                 else if (fieldName instanceof String)
-                    project = project.and(((String) fieldName)).as(entry.getKey());
+                    project = project.and(ConditionalOperators.ifNull((String) fieldName).then(null)).as(entry.getKey());
                 else
                     project = project.and((AggregationExpression) fieldName).as(entry.getKey());
             }
@@ -216,7 +225,7 @@ public class AggregationUtil {
         return aggregations;
     }
 
-    public List<AggregationOperation> getMatchOperation(List<FilterConfig> filters, Map<String, String> fieldsAndTypes){
+    public List<AggregationOperation> getMatchOperation(List<FilterConfig> filters, Map<String, String> fieldsAndTypes) {
         return filterComponent.getMatchOperation(filters, fieldsAndTypes);
     }
 }

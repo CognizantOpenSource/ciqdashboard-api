@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,14 +17,16 @@ public class ProjectMapping {
     @Id
     private String projectId;
     @JsonIgnore
-    private Type type = Type.EXECUTION_API;
+    private Type type = Type.I_DASHBOARD_API;
     private String ownerId;
     private List<String> userIds;
+    private List<String> teamIds = new ArrayList<>();
 
-    public ProjectMapping(String projectId, String ownerId, List<String> userIds) {
+    public ProjectMapping(String projectId, String ownerId, List<String> userIds, List<String> teamIds) {
         this.projectId = projectId;
         this.ownerId = ownerId;
         this.userIds = userIds;
+        this.teamIds = teamIds;
     }
 
     @JsonIgnore

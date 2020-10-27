@@ -6,6 +6,7 @@ import com.cognizant.idashboardapi.models.IDChartItemDataDTO;
 import com.cognizant.idashboardapi.services.IDChartItemService;
 import com.cognizant.idashboardapi.services.IDashboardDataSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,30 +27,35 @@ public class ChartItemController {
 
     @GetMapping
     @ResponseStatus(OK)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
     public List<IDChartItem> getAll() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
     public IDChartItem get(@PathVariable String id) {
         return service.assertAndGet(id);
     }
 
     @GetMapping("/search")
     @ResponseStatus(OK)
-    public List<IDChartItem> searchByString(@RequestParam String searchString){
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
+    public List<IDChartItem> searchByString(@RequestParam String searchString) {
         return service.searchByString(searchString);
     }
 
     @GetMapping("/search/name")
     @ResponseStatus(OK)
-    public List<IDChartItem> searchByNames(@RequestParam List<String> names){
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
+    public List<IDChartItem> searchByNames(@RequestParam List<String> names) {
         return service.searchByNames(names);
     }
 
     @PostMapping("/{id}/chart-data")
     @ResponseStatus(OK)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
     public IDChartItemDataDTO getChartData(@PathVariable String id, @RequestBody(required = false) Optional<List<FilterConfig>> filters) {
         return service.getChartData(id, filters);
     }
@@ -57,6 +63,7 @@ public class ChartItemController {
     @PostMapping("/preview")
     @Validated
     @ResponseStatus(OK)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
     public IDChartItemDataDTO preview(@Valid @RequestBody IDChartItem chartItem) {
         iDashboardDataSourceService.assertAndGetByName(chartItem.getSource());
         return service.preview(chartItem);
@@ -65,6 +72,7 @@ public class ChartItemController {
     @PostMapping
     @Validated
     @ResponseStatus(CREATED)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.create')")
     public IDChartItem add(@Valid @RequestBody IDChartItem chartItem) {
         if (!"#none".equalsIgnoreCase(chartItem.getSource()))
             iDashboardDataSourceService.assertAndGetByName(chartItem.getSource());
@@ -74,6 +82,7 @@ public class ChartItemController {
     @PutMapping
     @Validated
     @ResponseStatus(OK)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.update')")
     public IDChartItem update(@Valid @RequestBody IDChartItem chartItem) {
         if (!"#none".equalsIgnoreCase(chartItem.getSource()))
             iDashboardDataSourceService.assertAndGetByName(chartItem.getSource());
@@ -82,12 +91,14 @@ public class ChartItemController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.delete')")
     public void deleteById(@PathVariable String id) {
         service.deleteById(id);
     }
 
     @DeleteMapping
     @ResponseStatus(NO_CONTENT)
+    @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.delete')")
     public void deleteByIdIn(@RequestParam List<String> ids) {
         service.deleteByIdIn(ids);
     }

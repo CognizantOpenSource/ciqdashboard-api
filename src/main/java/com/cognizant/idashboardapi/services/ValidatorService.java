@@ -63,6 +63,12 @@ public class ValidatorService {
         return barChartAggregation;
     }
 
+    public BarChartAggregation validateBarGaugeChartAggregation(BarChartAggregation barChartAggregation, Set<String> fields) {
+        List<Filter> filters = barChartAggregation.getFilterList();
+        validateFilters(filters, fields);
+        return barChartAggregation;
+    }
+
     public TableAggregation validateTableAggregation(TableAggregation tableAggregation, Set<String> fields) {
         List<Filter> filters = tableAggregation.getFilterList();
 

@@ -30,7 +30,7 @@ public class DashboardProjectController {
 
     @GetMapping
     @ResponseStatus(OK)
-    @PreAuthorize("hasPermission(#projectId, 'Project','leap.project.read')")
+    @PreAuthorize("hasPermission(#projectId, 'Project','idashboard.project.view')")
     public List<IDashboardProject> getAll() {
         if (userValidationService.isAdmin())
             return service.getAll();
@@ -39,14 +39,14 @@ public class DashboardProjectController {
 
     @GetMapping("/{id}")
     @ResponseStatus(OK)
-    @PreAuthorize("hasPermission(#id, 'Project','leap.project.read')")
+    @PreAuthorize("hasPermission(#id, 'Project','idashboard.project.view')")
     public IDashboardProject get(@PathVariable String id) {
         return service.getOrAssert(id);
     }
 
     @GetMapping("/{id}/dashboards")
     @ResponseStatus(OK)
-    @PreAuthorize("hasPermission(#id, 'Project','leap.project.read')")
+    @PreAuthorize("hasPermission(#id, 'Project','idashboard.project.view')")
     public List<IDashboard> getDashboards(@PathVariable String id) {
         IDashboardProject iDashboardProject = get(id);
         return dashboardService.getByProjectName(iDashboardProject.getName());
@@ -54,7 +54,7 @@ public class DashboardProjectController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    @PreAuthorize("hasPermission(#projectId, 'Project','leap.project.update')")
+    @PreAuthorize("hasPermission(#projectId, 'Project','idashboard.project.create')")
     public IDashboardProject insert(@Valid @RequestBody IDashboardProject project) {
         service.assertNotExists(project);
         IDashboardProject dashboardProject = service.insert(project);
@@ -64,14 +64,14 @@ public class DashboardProjectController {
 
     @PutMapping
     @ResponseStatus(OK)
-    @PreAuthorize("hasPermission(#project.id, 'Project','leap.project.update')")
+    @PreAuthorize("hasPermission(#projectId, 'Project','idashboard.project.update')")
     public IDashboardProject update(@Valid @RequestBody IDashboardProject project) {
         return service.update(project);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
-    @PreAuthorize("hasPermission(#id, 'Project','leap.project.update')")
+    @PreAuthorize("hasPermission(#id, 'Project','idashboard.project.delete')")
     public void delete(@PathVariable String id) {
         Optional<IDashboardProject> dashboardProject = service.get(id);
         if (dashboardProject.isPresent()) {
@@ -82,8 +82,7 @@ public class DashboardProjectController {
     }
 
     private List<String> getUserProjectIds() {
-        return projectMappingService.getCurrentUserProjectIds();
+        return userValidationService.getCurrentUserProjectIds();
     }
-
 
 }

@@ -75,6 +75,9 @@ public class ChartAggregationComponent {
             case BAR_CHART:
                 chartData = getBarChart(chartItem, fields, source.getCollectionName());
                 break;
+            case BAR_GAUGE_CHART:
+                chartData = getBarGaugeChart(chartItem, fields, source.getCollectionName());
+                break;
             case TABLE:
                 chartData = getTable(chartItem, fields, source.getCollectionName());
                 break;
@@ -133,6 +136,13 @@ public class ChartAggregationComponent {
         barChartAggregation.setGroupBy(chartItem.getGroupBy());
         BarChartAggregation validateBarChartAggregation = validatorService.validateBarChartAggregation(barChartAggregation, fields);
         return collectorService.getBarChart(validateBarChartAggregation, collectionName);
+    }
+
+    private List<LinkedHashMap> getBarGaugeChart(IDChartItem chartItem, Set<String> fields, String collectionName) {
+        BarChartAggregation barChartAggregation = new BarChartAggregation();
+        barChartAggregation.setFilters(chartItem.getFilters());
+        BarChartAggregation validateBarGaugeChartAggregation = validatorService.validateBarGaugeChartAggregation(barChartAggregation, fields);
+        return collectorService.getBarGaugeChart(validateBarGaugeChartAggregation, collectionName);
     }
 
     private List<ChartData> getDrillDownChart(IDChartItem chartItem, Set<String> fields, String collectionName) {

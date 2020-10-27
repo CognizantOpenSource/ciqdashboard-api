@@ -10,5 +10,7 @@ public interface IDashboardRepository extends MongoRepository<IDashboard, String
 
     List<IDashboard> findByProjectName(String projectName);
 
+    List<IDashboard> findByProjectNameIn(List<String> projectNames);
+
     void deleteByProjectName(String projectName);
 }

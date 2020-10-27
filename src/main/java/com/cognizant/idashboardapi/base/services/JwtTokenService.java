@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
@@ -114,8 +115,14 @@ public class JwtTokenService {
         user.setActive((boolean) claims.get("active"));
         Account account = new Account();
 
+        List<String> teams = new ArrayList<>();
+        List<String> list = (List<String>) claims.get("teams");
+        if (!CollectionUtils.isEmpty(list)){
+            teams = list;
+        }
+
         List<String> userOwnProjectIds = projectMappingService.getUserOwnProjectIds(claims.getSubject());
-        List<String> userProjectIds = projectMappingService.getUserProjectIds(claims.getSubject());
+        List<String> userProjectIds = projectMappingService.getUserProjectIds(claims.getSubject(), teams);
 
         account.setOwnProjectIds(userOwnProjectIds);
         account.setProjectIds(userProjectIds);

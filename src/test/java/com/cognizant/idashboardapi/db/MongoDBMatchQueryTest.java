@@ -98,12 +98,11 @@ class MongoDBMatchQueryTest {
     void ifNullTest(){
         Criteria in = Criteria.where("projectKey").is("ID").and("issueTypeId").in(Arrays.asList("10004", "10002"));
         MatchOperation match = Aggregation.match(in);
-        ProjectionOperation project = Aggregation.project()
-                .and(ConditionalOperators.ifNull("sprintStartDate").then("--NA--")).as("sprintStartDate");
+        ProjectionOperation project = Aggregation.project();
+                project = project.and(ConditionalOperators.ifNull("sprintStartDate").then("--NA--")).as("sprintStartDate");
         Aggregation aggregation = Aggregation.newAggregation(match, project);
         AggregationResults<Document> aggregate = template.aggregate(aggregation, "jiraIssues", Document.class);
         System.out.println("test");
-
     }
 
     private void runAggregate(List<Filter> filters){

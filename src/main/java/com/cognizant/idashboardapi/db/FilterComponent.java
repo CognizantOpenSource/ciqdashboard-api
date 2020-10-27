@@ -2,7 +2,9 @@ package com.cognizant.idashboardapi.db;
 
 import com.cognizant.idashboardapi.models.Filter;
 import com.cognizant.idashboardapi.models.FilterConfig;
+import com.cognizant.idashboardapi.services.DateFilterComponent;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -21,16 +23,20 @@ import static com.cognizant.idashboardapi.models.FilterConfig.LogicalOperatorTyp
 
 @Component
 public class FilterComponent {
+    @Autowired
+    DateFilterComponent dateFilterComponent;
 
     public List<Filter> getFilterList(List<FilterConfig> filters, FilterConfig.LogicalOperatorType type) {
-        return filters.stream().filter(config -> config.getLogicalOperator() == type)
-                .flatMap(filterConfig -> filterConfig.getConfigs().stream()).collect(Collectors.toList());
+        return filters.stream()
+                .filter(config -> (config.getLogicalOperator() == type && (null!=config.getActive() && config.getActive())))
+                .flatMap(filterConfig -> filterConfig.getConfigs().stream())
+                .collect(Collectors.toList());
     }
 
     public List<AggregationOperation> getMatchOperation(List<FilterConfig> filters, Map<String, String> collection) {
         List<AggregationOperation> operations = new ArrayList<>();
         Map<String, String> dateFieldsMap = new HashMap<>();
-        Set<String> dateFields = filters.stream().map(filterConfig -> filterConfig.getConfigs())
+        Set<String> dateFields = filters.stream().map(FilterConfig::getConfigs)
                 .flatMap(Collection::stream)
                 .filter(filter -> {
                     String type = collection.get(filter.getField());
@@ -78,10 +84,13 @@ public class FilterComponent {
     public Criteria getCriteria(Filter filterMain, Map<String, String> collection, Map<String, String> dateFieldsMap) {
         Filter filter = new Filter();
         BeanUtils.copyProperties(filterMain, filter);
+        String type = collection.get(filter.getField());
+        if (Date.class.getSimpleName().equalsIgnoreCase(type) && filter.getValue() instanceof Integer) {
+            filter = dateFilterComponent.getMinAndMaxDate(filter);
+        }
         Filter.OPType opType = filter.getOp();
         Object value = filter.getValue();
         Object maxValue = filter.getMaxValue();
-        String type = collection.get(filter.getField());
         if (Date.class.getSimpleName().equalsIgnoreCase(type) && value instanceof String) {
             String field = dateFieldsMap.get(filter.getField());
             if (StringUtils.hasText(field)) filter.setField(dateFieldsMap.get(filter.getField()));
@@ -106,7 +115,6 @@ public class FilterComponent {
                 return Criteria.where(filter.getField()).is(value);
             case ne:
                 return Criteria.where(filter.getField()).ne(value);
-
             case gt:
                 return Criteria.where(filter.getField()).gt(value);
             case gte:

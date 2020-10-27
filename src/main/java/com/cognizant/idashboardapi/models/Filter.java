@@ -18,7 +18,9 @@ public class Filter {
         gt, gte, lt, lte, between,
         in, nin,
         contains, startswith, endswith, notcontains,
-        matches, regex;
+        matches, regex,
+        lastNYear, lastNMonth, lastNWeek, lastNDay,
+        thisYear, thisMonth, thisWeek, thisDay
     }
 
     public Filter(String field, OPType op, Object value) {

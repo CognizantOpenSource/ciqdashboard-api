@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -95,6 +92,10 @@ public class CollectorService {
     public List<ChartData> getBarChart(BarChartAggregation chartAggregation, String collectionName) {
         Map<String, String> collection = this.getFieldsAndTypesByCollection(collectionName);
         return collectorRepository.getBarChart(chartAggregation, collectionName, collection);
+    }
+
+    public List<LinkedHashMap> getBarGaugeChart(BarChartAggregation validateBarGaugeChartAggregation, String collectionName) {
+        return collectorRepository.getBarGaugeChart(validateBarGaugeChartAggregation, collectionName);
     }
 
     /**

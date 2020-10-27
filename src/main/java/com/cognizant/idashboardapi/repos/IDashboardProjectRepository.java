@@ -9,7 +9,9 @@ import java.util.Optional;
 
 public interface IDashboardProjectRepository extends MongoRepository<IDashboardProject, String> {
     Optional<IDashboardProject> findByName(String name);
+
     Optional<IDashboardProject> findFirstByNameAndIdNot(String name, String id);
+
     @Query("{_id: { $in: ?0 } })")
     List<IDashboardProject> findByIds(List<String> ids);
 }
