@@ -50,14 +50,6 @@ class MongoDBRepoTest {
     }
 
     @Test
-    void queryTest() {
-        Criteria criteria = new Criteria();
-        criteria.and("projectId").is(51).where("test").is(null);
-//        criteria.orOperator("","").andOperator("","")
-        Assertions.assertNotNull(criteria);
-    }
-
-    @Test
     void nplApiClientTest() {
         List<String> keywords = nlpApiClient.getKeywords("get defects and tests and new");
         System.out.println(keywords);

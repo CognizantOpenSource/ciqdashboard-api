@@ -1,5 +1,6 @@
 package com.cognizant.idashboardapi.controllers;
 
+import com.cognizant.idashboardapi.errors.InvalidDetailsException;
 import com.cognizant.idashboardapi.models.IDashboard;
 import com.cognizant.idashboardapi.services.IDashboardProjectService;
 import com.cognizant.idashboardapi.services.IDashboardService;
@@ -63,6 +64,7 @@ public class DashboardController {
     @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','idashboard.update')")
     public IDashboard update(@Valid @RequestBody IDashboard dashboard) {
         validateProjectAccess(dashboard.getProjectName());
+        validateUpdateOpenAccess(dashboard, service.assertAndGet(dashboard.getId()));
         return service.update(dashboard);
     }
 
@@ -86,6 +88,16 @@ public class DashboardController {
             List<String> names = userValidationService.getCurrentUserProjectNames();
             if (!names.contains(projectName)) {
                 throw new AccessDeniedException(String.format("Project access not found with projectName:%s", projectName));
+            }
+        }
+    }
+
+    private void validateUpdateOpenAccess(IDashboard newDashboard, IDashboard existDashboard){
+        if (!userValidationService.isAdmin()){
+            Boolean openAccess = newDashboard.getOpenAccess();
+            if ((null == openAccess || false==openAccess)
+                    && !existDashboard.getCreatedUser().equals(userValidationService.getCurrentUserEmailId())){
+                throw new InvalidDetailsException("Not allowed to update openAccess for the dashboard");
             }
         }
     }

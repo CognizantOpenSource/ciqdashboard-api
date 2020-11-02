@@ -5,7 +5,7 @@ import com.cognizant.idashboardapi.db.AggregationUtil;
 import com.cognizant.idashboardapi.db.DBAggregationUtilComponent;
 import com.cognizant.idashboardapi.errors.InvalidDetailsException;
 import com.cognizant.idashboardapi.models.*;
-import com.cognizant.idashboardapi.models.chart.LeapSort;
+import com.cognizant.idashboardapi.models.chart.DBSort;
 import com.cognizant.idashboardapi.models.chart.data.ChartData;
 import com.cognizant.idashboardapi.models.chart.data.DataGridRow;
 import com.mongodb.client.DistinctIterable;
@@ -121,7 +121,9 @@ public class CollectorRepositoryImpl {
         Aggregation aggregation = Aggregation.newAggregation(aggregations);
         AggregationResults<Document> aggregate = template.aggregate(aggregation, collectionName, Document.class);
         List<Document> mappedResults = aggregate.getMappedResults();
-        return mappedResults.stream().map(document -> document.get(fieldName).toString()).collect(Collectors.toSet());
+        return mappedResults.stream()
+                .filter(document -> Objects.nonNull(document.get(fieldName)))
+                .map(document -> document.get(fieldName).toString()).collect(Collectors.toSet());
     }
 
     /**
@@ -208,7 +210,7 @@ public class CollectorRepositoryImpl {
         List<String> fields = chartAggregation.getProjection();
         LinkedHashMap<String, Object> fieldsWithAlias = chartAggregation.getProjectionWithAlias();
         List<String> excludeFields = chartAggregation.getExcludeFields();
-        LeapSort sort = chartAggregation.getSort();
+        DBSort sort = chartAggregation.getSort();
         int limit = chartAggregation.getLimit();
 
         Aggregation dataGridAggregation = aggregationUtil.getDataGridAggregation(chartAggregation.getFilters(), fields, fieldsWithAlias, excludeFields, sort, limit, getFieldsAndTypesByCollection(collectionName));

@@ -26,6 +26,7 @@ import static org.springframework.http.HttpStatus.*;
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String RESOURCE_NOT_FOUND = "resource-not-found";
     private static final String INVALID_DETAILS = "invalid-details";
+    private static final String INVALID_AUTHENTICATION_DETAILS = "invalid-authentication-details";
     private static final String REQUEST_LOG = "Request: ";
     private static final String INVALID_REQUEST = "invalid-request";
     private static final String REQUEST_CUSTOM_LOG = "Request:: Custom >> ";
@@ -33,9 +34,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler({ResourceNotFoundException.class})
     @ResponseStatus(NOT_FOUND)
-    public ResponseEntity<LeapResponse> resourceNotFound(Exception exception, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> resourceNotFound(Exception exception, HttpServletRequest request) {
         logger.error(REQUEST_LOG + request.getRequestURL(), exception);
-        LeapResponse response = new LeapResponse(LocalDateTime.now(),
+        ApiResponse response = new ApiResponse(LocalDateTime.now(),
                 NOT_FOUND.value(),
                 RESOURCE_NOT_FOUND,
                 exception.getMessage(),
@@ -44,9 +45,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(ResourceExistsException.class)
-    public ResponseEntity<LeapResponse> resourceExists(Exception exception, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> resourceExists(Exception exception, HttpServletRequest request) {
         log.error(REQUEST_LOG + request.getRequestURL(), exception);
-        LeapResponse response = new LeapResponse(LocalDateTime.now(),
+        ApiResponse response = new ApiResponse(LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
                 RESOURCE_CONFLICT,
                 exception.getMessage(),
@@ -56,14 +57,26 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler({InvalidDetailsException.class})
     @ResponseStatus(BAD_REQUEST)
-    public ResponseEntity<LeapResponse> invalidDetails(Exception exception, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> invalidDetails(Exception exception, HttpServletRequest request) {
         logger.error(REQUEST_LOG + request.getRequestURL(), exception);
-        LeapResponse response = new LeapResponse(LocalDateTime.now(),
+        ApiResponse response = new ApiResponse(LocalDateTime.now(),
                 INTERNAL_SERVER_ERROR.value(),
                 INVALID_DETAILS,
                 exception.getMessage(),
                 request.getRequestURI());
         return new ResponseEntity<>(response, INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler({InvalidAuthenticationException.class})
+    @ResponseStatus(UNAUTHORIZED)
+    public ResponseEntity<ApiResponse> invalidAuthenticationDetails(Exception exception, HttpServletRequest request) {
+        logger.error(REQUEST_LOG + request.getRequestURL(), exception);
+        ApiResponse response = new ApiResponse(LocalDateTime.now(),
+                UNAUTHORIZED.value(),
+                INVALID_AUTHENTICATION_DETAILS,
+                exception.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(response, UNAUTHORIZED);
     }
 
     @Override
@@ -78,7 +91,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         }
         log.error(REQUEST_LOG + request.getDescription(false), exception);
 
-        LeapResponse response = new LeapResponse(LocalDateTime.now(),
+        ApiResponse response = new ApiResponse(LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 INVALID_REQUEST,
                 errors.stream().map(error -> error).collect(Collectors.joining(",")),

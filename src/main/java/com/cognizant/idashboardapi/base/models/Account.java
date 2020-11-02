@@ -43,7 +43,7 @@ public class Account {
     private Instant lastModifiedDate;
 
     @JsonIgnore
-    @Value("${app.leap.permission.admin}")
+    @Value("${app.permission.admin}")
     private String adminPermission;
 
 

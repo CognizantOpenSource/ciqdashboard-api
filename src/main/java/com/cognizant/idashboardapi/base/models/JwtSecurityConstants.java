@@ -9,7 +9,6 @@ public class JwtSecurityConstants {
     public static final String HEADER_STRING = "Authorization";
 
     /*Custom Token Constants*/
-    public static final String CUSTOM_TOKEN_ID = "X-leap-token-id";
     public static final String BEARER_TEMPLATE = "Bearer %s";
 
     public static final String AUTH_TOKEN = "auth_token";

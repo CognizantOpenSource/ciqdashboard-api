@@ -4,9 +4,11 @@ import com.cognizant.idashboardapi.base.models.Account;
 import com.cognizant.idashboardapi.base.models.JwtSecurityConstants;
 import com.cognizant.idashboardapi.base.models.Permission;
 import com.cognizant.idashboardapi.base.models.User;
+import com.cognizant.idashboardapi.errors.InvalidAuthenticationException;
 import com.cognizant.idashboardapi.models.AppTokenStore;
 import com.cognizant.idashboardapi.services.AppTokenStoreService;
 import com.cognizant.idashboardapi.services.ProjectMappingService;
+import com.cognizant.idashboardapi.services.UserSessionService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -42,6 +44,8 @@ public class JwtTokenService {
     AppTokenStoreService appTokenStoreService;
     @Autowired
     ProjectMappingService projectMappingService;
+    @Autowired
+    UserSessionService userSessionService;
 
     @PostConstruct
     protected void init() {
@@ -151,5 +155,10 @@ public class JwtTokenService {
             return optional.get().getToken();
         }
         return "";
+    }
+
+    public void validateUserSession(String jwt)  {
+        boolean isValidSession = userSessionService.validateSession(getClaims(jwt));
+        if (!isValidSession) throw new InvalidAuthenticationException();
     }
 }

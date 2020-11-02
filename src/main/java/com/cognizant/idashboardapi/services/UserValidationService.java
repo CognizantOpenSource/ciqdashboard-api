@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class UserValidationService {
 
-    @Value("${app.leap.permission.admin}")
+    @Value("${app.permission.admin}")
     private String adminPermission;
     @Autowired
     IDashboardProjectService projectService;

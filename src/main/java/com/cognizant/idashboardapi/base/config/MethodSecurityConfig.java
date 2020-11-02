@@ -21,7 +21,7 @@ public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
     @Autowired
     private CustomPermissionEvaluator permissionEvaluator;
 
-    @Value("${app.leap.permission.admin:leap.permission.admin}")
+    @Value("${app.permission.admin:permission.admin}")
     private String adminPermission;
 
     @Override

@@ -26,6 +26,13 @@ public class IDashboardRepositoryImpl {
         return Optional.ofNullable(dashboard);
     }
 
+    public List<IDashboard> getByProjectName(String projectName) {
+        Criteria criteria = Criteria.where("projectName").is(projectName);
+        if (!userValidationService.isAdmin()) criteria.orOperator(getCriteria());
+        Query query = new Query().addCriteria(criteria);
+        return template.find(query, IDashboard.class);
+    }
+
     public List<IDashboard> findAll() {
         Criteria criteria = new Criteria();
         criteria.orOperator(getCriteria());

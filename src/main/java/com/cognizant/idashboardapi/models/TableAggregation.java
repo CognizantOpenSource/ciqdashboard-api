@@ -1,6 +1,6 @@
 package com.cognizant.idashboardapi.models;
 
-import com.cognizant.idashboardapi.models.chart.LeapSort;
+import com.cognizant.idashboardapi.models.chart.DBSort;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +17,7 @@ public class TableAggregation extends FilterAggregation {
     private List<String> projection = new ArrayList<>();
     private LinkedHashMap<String, Object> projectionWithAlias = new LinkedHashMap<>();
     private List<String> excludeFields = new ArrayList<>();
-    private LeapSort sort;
+    private DBSort sort;
     private int limit;
 
 }

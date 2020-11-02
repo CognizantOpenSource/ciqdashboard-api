@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class LeapSort {
+public class DBSort {
     private SortType type;
     private List<String> fields = new ArrayList<>();
 

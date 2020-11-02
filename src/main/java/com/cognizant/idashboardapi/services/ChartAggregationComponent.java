@@ -35,7 +35,7 @@ public class ChartAggregationComponent {
                 IDChartItem item = new IDChartItem();
                 BeanUtils.copyProperties(chartItem, item);
                 ComboChartGroup combo = entry.getValue();
-                item.setGroupBy(null);
+                item.setGroupBy(new ArrayList<>());
                 if (!CollectionUtils.isEmpty(combo.getGroupBy())) item.setGroupBy(combo.getGroupBy());
                 if (!CollectionUtils.isEmpty(combo.getFilters())) item.getFilters().addAll(combo.getFilters());
                 item.setType(combo.getType());
@@ -85,7 +85,7 @@ public class ChartAggregationComponent {
                 chartData = getFieldsAggregate(chartItem, fields, source.getCollectionName());
                 break;
             case NONE:
-                chartData = null;
+                chartData = new ArrayList<>();
                 break;
             case LINE:
             default:

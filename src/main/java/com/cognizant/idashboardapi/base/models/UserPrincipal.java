@@ -126,7 +126,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     @JsonIgnore
-    @Value("${app.leap.permission.admin://}")
+    @Value("${app.permission.admin://}")
     private String adminPermission;
 
     @Override

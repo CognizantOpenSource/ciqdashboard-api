@@ -47,7 +47,7 @@ public class IDashboardApiApplication {
                     .description("IDashBoard API REST calls using Spring boot")
                     .version("1.0")
                     .termsOfService("Terms of service")
-                    .contact(new Contact().name("Leap").email("cognizantLeap@cognizant.com").url("www.Cognizant.com"))
+                    .contact(new Contact().name("IDashboard").email("cognizantidashboard@cognizant.com").url("www.Cognizant.com"))
                     .license(new License().name("License of API").url("API license URL"));
         }
 

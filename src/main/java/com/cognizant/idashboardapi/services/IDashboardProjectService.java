@@ -6,6 +6,7 @@ import com.cognizant.idashboardapi.errors.ResourceNotFoundException;
 import com.cognizant.idashboardapi.models.IDashboardProject;
 import com.cognizant.idashboardapi.repos.IDashboardProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,7 +21,7 @@ public class IDashboardProjectService {
     private IDashboardProjectRepository repository;
 
     public List<IDashboardProject> getAll() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "lastModifiedDate"));
     }
 
     public List<IDashboardProject> get(List<String> ids) {

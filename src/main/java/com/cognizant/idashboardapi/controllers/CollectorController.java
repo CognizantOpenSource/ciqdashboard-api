@@ -2,7 +2,7 @@ package com.cognizant.idashboardapi.controllers;
 
 import com.cognizant.idashboardapi.common.Constants;
 import com.cognizant.idashboardapi.errors.InvalidDetailsException;
-import com.cognizant.idashboardapi.errors.LeapResponse;
+import com.cognizant.idashboardapi.errors.ApiResponse;
 import com.cognizant.idashboardapi.models.FieldType;
 import com.cognizant.idashboardapi.models.db.view.ViewDetails;
 import com.cognizant.idashboardapi.services.CollectorService;
@@ -57,11 +57,11 @@ public class CollectorController {
 
     @PostMapping("/create-view")
     @Validated
-    public ResponseEntity<LeapResponse> createView(@Valid @RequestBody ViewDetails viewDetails, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> createView(@Valid @RequestBody ViewDetails viewDetails, HttpServletRequest request) {
         if (!viewDetails.getName().startsWith(Constants.COLLECTION_FILTER_SOURCE))
             throw new InvalidDetailsException(String.format("View name should start with '%s'", Constants.COLLECTION_FILTER_SOURCE));
         collectorService.createView(viewDetails);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new LeapResponse(LocalDateTime.now(),
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(LocalDateTime.now(),
                 CREATED.value(),
                 "",
                 "View created successfully",
@@ -70,13 +70,13 @@ public class CollectorController {
 
     @PostMapping("/create-collection")
     @ResponseStatus(CREATED)
-    public ResponseEntity<LeapResponse> createCustomCollection(@RequestParam String collectionName,
-                                                               @RequestBody List<Map<String, Object>> collectorData,
-                                                               HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> createCustomCollection(@RequestParam String collectionName,
+                                                              @RequestBody List<Map<String, Object>> collectorData,
+                                                              HttpServletRequest request) {
         if (!collectionName.startsWith(Constants.COLLECTION_FILTER_SOURCE))
             throw new InvalidDetailsException(String.format("Collection name should start with '%s'", Constants.COLLECTION_FILTER_SOURCE));
         collectorService.addCustomCollection(collectionName, collectorData);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new LeapResponse(LocalDateTime.now(),
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(LocalDateTime.now(),
                 CREATED.value(),
                 "",
                 "Collection created successfully",
@@ -86,17 +86,17 @@ public class CollectorController {
 
     @PutMapping("/update-collection")
     @ResponseStatus(OK)
-    public ResponseEntity<LeapResponse> updateCustomCollection(@RequestParam String collectionName,
-                                                               @RequestBody List<Map<String, Object>> collectorData,
-                                                               @RequestParam(required = false, defaultValue = "false") boolean override,
-                                                               HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> updateCustomCollection(@RequestParam String collectionName,
+                                                              @RequestBody List<Map<String, Object>> collectorData,
+                                                              @RequestParam(required = false, defaultValue = "false") boolean override,
+                                                              HttpServletRequest request) {
         if (!override) {
             collectorService.updateCustomCollection(collectionName, collectorData);
         } else {
             deleteView(collectionName, request);
             createCustomCollection(collectionName, collectorData, request);
         }
-        return ResponseEntity.status(OK).body(new LeapResponse(LocalDateTime.now(),
+        return ResponseEntity.status(OK).body(new ApiResponse(LocalDateTime.now(),
                 OK.value(),
                 "",
                 "Collection updated successfully",
@@ -106,9 +106,9 @@ public class CollectorController {
 
     @DeleteMapping("/drop-collection")
     @Validated
-    public ResponseEntity<LeapResponse> deleteView(@RequestParam String collectionName, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse> deleteView(@RequestParam String collectionName, HttpServletRequest request) {
         collectorService.deleteView(collectionName);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new LeapResponse(LocalDateTime.now(),
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ApiResponse(LocalDateTime.now(),
                 NO_CONTENT.value(),
                 "",
                 "Collection/View dropped successfully",

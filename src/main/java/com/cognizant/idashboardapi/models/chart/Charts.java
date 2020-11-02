@@ -28,34 +28,34 @@ public class Charts {
         return ChartData.builder();
     }
 
-    public static LeapChart.LeapChartBuilder pieChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder pieChart(ChartConfiguration config) {
         return pieChart(config, true);
     }
 
-    public static LeapChart.LeapChartBuilder doughnutChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder doughnutChart(ChartConfiguration config) {
         return pieChart(config, false);
     }
 
-    public static LeapChart.LeapChartBuilder cardChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder cardChart(ChartConfiguration config) {
         return chart(config, ChartType.card);
     }
 
-    public static LeapChart.LeapChartBuilder createChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder createChart(ChartConfiguration config) {
         return chart(config, config.getType());
     }
 
-    public static LeapChart.LeapChartBuilder treeMapChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder treeMapChart(ChartConfiguration config) {
         return chart(config, ChartType.treeMap);
     }
 
-    public static LeapChart.LeapChartBuilder barChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder barChart(ChartConfiguration config) {
         return chart(config, ChartType.verticalStakedBar);
     }
 
-    public static LeapChart.LeapChartBuilder lineChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder lineChart(ChartConfiguration config) {
         return chart(config, ChartType.lineSeries);
     }
-    public static LeapChart.LeapChartBuilder dataGridChart(ChartConfiguration config) {
+    public static IDBChart.IDBChartBuilder dataGridChart(ChartConfiguration config) {
         return chart(config, ChartType.dataGrid);
     }
     public static DataGridChartData.DataGridChartDataBuilder dataGrid() {
@@ -74,14 +74,14 @@ public class Charts {
     public static ChartData item(String name,Object value){
         return ChartData.builder().name(name).value(value).build();
     }
-    private static LeapChart.LeapChartBuilder chart(ChartConfiguration config, ChartType type) {
-        LeapChart.LeapChartBuilder builder = build(config);
+    private static IDBChart.IDBChartBuilder chart(ChartConfiguration config, ChartType type) {
+        IDBChart.IDBChartBuilder builder = build(config);
         builder.type(type);
         return builder;
     }
 
-    private static LeapChart.LeapChartBuilder pieChart(ChartConfiguration config, boolean isPie) {
-        LeapChart.LeapChartBuilder builder = build(config);
+    private static IDBChart.IDBChartBuilder pieChart(ChartConfiguration config, boolean isPie) {
+        IDBChart.IDBChartBuilder builder = build(config);
         builder.type(ChartType.pie);
         ChartProperties properties = config.getProperties();
         if (properties != null) {
@@ -92,8 +92,8 @@ public class Charts {
         return builder.properties(properties);
     }
 
-    private static LeapChart.LeapChartBuilder build(ChartConfiguration config) {
-        return LeapChart.builder()
+    private static IDBChart.IDBChartBuilder build(ChartConfiguration config) {
+        return IDBChart.builder()
                 .id(config.getId())
                 .name(config.getName())
                 .type(config.getType())

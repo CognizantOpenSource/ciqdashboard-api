@@ -4,7 +4,7 @@ import com.cognizant.idashboardapi.errors.InvalidDetailsException;
 import com.cognizant.idashboardapi.models.*;
 import com.cognizant.idashboardapi.models.aggregate.FieldAggregate;
 import com.cognizant.idashboardapi.models.aggregate.GroupAggregate;
-import com.cognizant.idashboardapi.models.chart.LeapSort;
+import com.cognizant.idashboardapi.models.chart.DBSort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -82,7 +82,7 @@ public class ValidatorService {
                 .map(Object::toString)
                 .collect(Collectors.toList());
         List<String> excludeFields = tableAggregation.getExcludeFields();
-        LeapSort sort = tableAggregation.getSort();
+        DBSort sort = tableAggregation.getSort();
 
         validateFilters(filters, fields);
         validateFields(fields, projection, "Projection");

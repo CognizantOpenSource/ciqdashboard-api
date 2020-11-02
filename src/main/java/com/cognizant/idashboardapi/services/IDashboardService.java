@@ -44,7 +44,7 @@ public class IDashboardService {
     }
 
     public List<IDashboard> getByProjectName(String projectName) {
-        return repository.findByProjectName(projectName);
+        return implRepo.getByProjectName(projectName);
     }
 
     public List<IDashboard> getByProjectNameList(List<String> projectNames) {

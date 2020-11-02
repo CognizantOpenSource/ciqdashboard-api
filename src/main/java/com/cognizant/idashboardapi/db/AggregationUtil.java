@@ -3,7 +3,7 @@ package com.cognizant.idashboardapi.db;
 import com.cognizant.idashboardapi.common.Constants;
 import com.cognizant.idashboardapi.models.BarChartAggregation;
 import com.cognizant.idashboardapi.models.FilterConfig;
-import com.cognizant.idashboardapi.models.chart.LeapSort;
+import com.cognizant.idashboardapi.models.chart.DBSort;
 import com.mongodb.BasicDBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -72,14 +72,14 @@ public class AggregationUtil {
     }
 
     public Aggregation getDataGridAggregation(List<FilterConfig> filters, List<String> fields, Map<String, Object> fieldWithAlias,
-                                              List<String> excludeFields, LeapSort sort, int limit, Map<String, String> collection) {
+                                              List<String> excludeFields, DBSort sort, int limit, Map<String, String> collection) {
         List<AggregationOperation> operations = new ArrayList<>();
         if (!CollectionUtils.isEmpty(filters)) {
             operations.addAll(filterComponent.getMatchOperation(filters, collection));
         }
         if (null != sort) {
             List<String> sortFields = new ArrayList<>(sort.getFields());
-            if (sort.getType().equals(LeapSort.SortType.ASC) || sort.getType().equals(LeapSort.SortType.DESC)) {
+            if (sort.getType().equals(DBSort.SortType.ASC) || sort.getType().equals(DBSort.SortType.DESC)) {
                 operations.add(getSort(sort.getSortDirection(), sortFields.toArray(new String[sortFields.size()])));
             }
         }

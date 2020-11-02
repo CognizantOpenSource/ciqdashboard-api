@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LeapChart {
+public class IDBChart {
     private String id;
     private ChartType type;
     private String name;
@@ -25,17 +25,17 @@ public class LeapChart {
         setData(Arrays.asList(data));
     }
 
-    public static class LeapChartBuilder {
+    public static class IDBChartBuilder {
 
-        public LeapChart data(@NonNull ChartData... data) {
+        public IDBChart data(@NonNull ChartData... data) {
             this.data = Arrays.asList(data);
             return this.build();
         }
-        public LeapChart data(@NonNull List<ChartData> data) {
+        public IDBChart data(@NonNull List<ChartData> data) {
             this.data = data;
             return this.build();
         }
-        public LeapChart data(@NonNull DataGridChartData data) {
+        public IDBChart data(@NonNull DataGridChartData data) {
             this.data = data;
             return this.build();
         }

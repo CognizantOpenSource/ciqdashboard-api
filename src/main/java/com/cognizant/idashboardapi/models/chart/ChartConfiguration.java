@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class ChartConfiguration extends LeapChart {
+public class ChartConfiguration extends IDBChart {
     private boolean enabled;
     private ChartAggregation aggregation;
 }

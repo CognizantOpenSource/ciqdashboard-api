@@ -68,7 +68,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+            String token = bearerToken.substring(7);
+            tokenProvider.validateUserSession(token);
+            return token;
         } else {
             throw new ResourceAccessException("Invalid Auth token - " + bearerToken);
         }
