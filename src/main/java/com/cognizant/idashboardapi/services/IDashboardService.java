@@ -1,6 +1,7 @@
 package com.cognizant.idashboardapi.services;
 
 import com.cognizant.idashboardapi.errors.InvalidDetailsException;
+import com.cognizant.idashboardapi.errors.ResourceExistsException;
 import com.cognizant.idashboardapi.errors.ResourceNotFoundException;
 import com.cognizant.idashboardapi.models.IDashboard;
 import com.cognizant.idashboardapi.repos.IDashboardRepository;
@@ -30,8 +31,11 @@ public class IDashboardService {
     }
 
     public Optional<IDashboard> get(String id){
-//        return repository.findById(id);
         return implRepo.findById(id);
+    }
+
+    public Optional<IDashboard> getByNameIgnoreCase(String name){
+        return repository.findByNameIgnoreCase(name);
     }
 
     public IDashboard assertAndGet(String id){
@@ -58,6 +62,7 @@ public class IDashboardService {
     }
 
     public IDashboard update(IDashboard dashboard){
+        assertUpdate(dashboard);
         IDashboard exist = assertAndGet(dashboard.getId());
         dashboard.setCreatedUser(exist.getCreatedUser());
         dashboard.setCreatedDate(exist.getCreatedDate());
@@ -67,17 +72,26 @@ public class IDashboardService {
     public void deleteById(String id){
         assertAndGet(id);
         implRepo.deleteByIds(Arrays.asList(id));
-        //repository.deleteById(id);
     }
 
     public void deleteByIdIn(List<String> ids){
         implRepo.deleteByIds(ids);
-        //repository.deleteByIdIn(ids);
+    }
+
+    private void assertUpdate(IDashboard dashboard) {
+        Optional<IDashboard> optional = getByNameIgnoreCase(dashboard.getName());
+        if (optional.isPresent() && !optional.get().getId().equals(dashboard.getId())){
+            throw new ResourceExistsException("Dashboard","name", dashboard.getName());
+        }
     }
 
     private void assertInsert(IDashboard dashboard) {
         if (!StringUtils.isEmpty(dashboard.getId())){
             throw new InvalidDetailsException("Id should be null/empty");
+        }
+        Optional<IDashboard> optional = getByNameIgnoreCase(dashboard.getName());
+        if (optional.isPresent()){
+            throw new ResourceExistsException("Dashboard","name", dashboard.getName());
         }
     }
 

@@ -10,4 +10,6 @@ public interface IDashboardDataSourceRepository extends MongoRepository<IDashboa
     void deleteByIdIn(List<String> ids);
 
     Optional<IDashboardDataSource> findByName(String name);
+
+    Optional<IDashboardDataSource> findByNameIgnoreCase(String name);
 }

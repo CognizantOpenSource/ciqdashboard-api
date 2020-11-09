@@ -25,11 +25,12 @@ public class IDashboardProjectService {
     }
 
     public List<IDashboardProject> get(List<String> ids) {
-        return repository.findByIds(ids);
+        return repository.findByIds(ids, Sort.by(Sort.Direction.DESC, "lastModifiedDate"));
     }
 
     public List<String> getNamesByIds(List<String> ids) {
-        return repository.findByIds(ids).stream().map(IDashboardProject::getName).collect(Collectors.toList());
+        return repository.findByIds(ids, Sort.by(Sort.Direction.DESC, "lastModifiedDate"))
+                .stream().map(IDashboardProject::getName).collect(Collectors.toList());
     }
 
     public Optional<IDashboardProject> get(String id) {
@@ -51,10 +52,10 @@ public class IDashboardProjectService {
 
     private void assertUpdate(IDashboardProject project) {
         getOrAssert(project.getId());
-        Optional<IDashboardProject> byNameNotId = getByNameNotId(project.getName(), project.getId());
-        byNameNotId.ifPresent(project1 -> {
+        Optional<IDashboardProject> optional = getByNameIgnoreCase(project.getName());
+        if (optional.isPresent() && !optional.get().getId().equals(project.getId())) {
             throw new ResourceExistsException("Project", "name", project.getName());
-        });
+        }
     }
 
     public IDashboardProject getOrAssert(String id){
@@ -63,7 +64,7 @@ public class IDashboardProjectService {
     }
 
     public void assertNotExists(IDashboardProject project) {
-        Optional<IDashboardProject> byName = getByName(project.getName());
+        Optional<IDashboardProject> byName = getByNameIgnoreCase(project.getName());
         if (byName.isPresent()) throw new ResourceExistsException("Project", "name", project.getName());
         if (!StringUtils.isEmpty(project.getId())) throw new InvalidDetailsException("id", project.getId(), "Id should be empty/null");
     }
@@ -74,6 +75,10 @@ public class IDashboardProjectService {
 
     public Optional<IDashboardProject> getByName(String name){
         return repository.findByName(name);
+    }
+
+    public Optional<IDashboardProject> getByNameIgnoreCase(String name){
+        return repository.findByNameIgnoreCase(name);
     }
 
     public IDashboardProject assertAndGetByName(String name){

@@ -4,6 +4,7 @@ import com.cognizant.idashboardapi.models.IDashboard;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IDashboardRepository extends MongoRepository<IDashboard, String> {
     void deleteByIdIn(List<String> ids);
@@ -13,4 +14,6 @@ public interface IDashboardRepository extends MongoRepository<IDashboard, String
     List<IDashboard> findByProjectNameIn(List<String> projectNames);
 
     void deleteByProjectName(String projectName);
+
+    Optional<IDashboard> findByNameIgnoreCase(String name);
 }

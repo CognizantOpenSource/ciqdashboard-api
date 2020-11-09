@@ -7,7 +7,6 @@ import com.cognizant.idashboardapi.models.IDashboardDataSource;
 import com.cognizant.idashboardapi.repos.IDashboardDataSourceRepository;
 import com.cognizant.idashboardapi.repos.impl.CollectorRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -44,18 +43,12 @@ public class IDashboardDataSourceService {
 
     public IDashboardDataSource add(IDashboardDataSource iDashboardDataSource) {
         assertInsert(iDashboardDataSource);
-        assertCollectionName(iDashboardDataSource.getCollectionName());
         return repository.insert(iDashboardDataSource);
     }
 
     public IDashboardDataSource update(IDashboardDataSource iDashboardDataSource) {
-        assertAndGet(iDashboardDataSource.getId());
-        assertCollectionName(iDashboardDataSource.getCollectionName());
-        try {
-            return repository.save(iDashboardDataSource);
-        }catch (DuplicateKeyException exception){
-            throw new ResourceExistsException("DataSource", "name", iDashboardDataSource.getName());
-        }
+        assertUpdate(iDashboardDataSource);
+        return repository.save(iDashboardDataSource);
     }
 
     public void deleteById(String id) {
@@ -65,6 +58,10 @@ public class IDashboardDataSourceService {
 
     public Optional<IDashboardDataSource> getByName(String name) {
         return repository.findByName(name);
+    }
+
+    public Optional<IDashboardDataSource> getByNameIgnoreCase(String name) {
+        return repository.findByNameIgnoreCase(name);
     }
 
     public IDashboardDataSource assertAndGetByName(String name) {
@@ -84,8 +81,18 @@ public class IDashboardDataSourceService {
         if (!StringUtils.isEmpty(iDashboardDataSource.getId())) {
             throw new InvalidDetailsException("Id field should be empty/null");
         }
-        Optional<IDashboardDataSource> byName = getByName(iDashboardDataSource.getName());
-        if (byName.isPresent()){
+        assertCollectionName(iDashboardDataSource.getCollectionName());
+        Optional<IDashboardDataSource> byName = getByNameIgnoreCase(iDashboardDataSource.getName());
+        if (byName.isPresent()) {
+            throw new ResourceExistsException("DataSource", "name", iDashboardDataSource.getName());
+        }
+    }
+
+    private void assertUpdate(IDashboardDataSource iDashboardDataSource) {
+        assertAndGet(iDashboardDataSource.getId());
+        assertCollectionName(iDashboardDataSource.getCollectionName());
+        Optional<IDashboardDataSource> optional = getByNameIgnoreCase(iDashboardDataSource.getName());
+        if (optional.isPresent() && !optional.get().getId().equals(iDashboardDataSource.getId())) {
             throw new ResourceExistsException("DataSource", "name", iDashboardDataSource.getName());
         }
     }

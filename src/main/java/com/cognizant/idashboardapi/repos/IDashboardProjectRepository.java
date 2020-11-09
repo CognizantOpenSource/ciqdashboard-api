@@ -1,6 +1,7 @@
 package com.cognizant.idashboardapi.repos;
 
 import com.cognizant.idashboardapi.models.IDashboardProject;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
@@ -12,6 +13,8 @@ public interface IDashboardProjectRepository extends MongoRepository<IDashboardP
 
     Optional<IDashboardProject> findFirstByNameAndIdNot(String name, String id);
 
-    @Query("{_id: { $in: ?0 } })")
-    List<IDashboardProject> findByIds(List<String> ids);
+    @Query(value = "{_id: { $in: ?0 } })")
+    List<IDashboardProject> findByIds(List<String> ids, Sort sort);
+
+    Optional<IDashboardProject> findByNameIgnoreCase(String name);
 }
