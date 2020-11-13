@@ -103,21 +103,17 @@ db.roles.insert(
       },
       {
         "_id": "team.update",
-        "name": "Update Team",
-        "_class": "com.cognizant.leap.users.beans.Permission"
+        "name": "Update Team"
       },
       {
         "_id": "team.delete",
-        "name": "Delete Team",
-        "_class": "com.cognizant.leap.users.beans.Permission"
+        "name": "Delete Team"
       },
       {
         "_id": "team.view",
-        "name": "View Team",
-        "_class": "com.cognizant.leap.users.beans.Permission"
+        "name": "View Team"
       }
-    ],
-    "_class": "com.cognizant.leap.users.beans.Role"
+    ]
   },
   {
     "_id": "TeamMember",
@@ -188,11 +184,9 @@ db.roles.insert(
       },
       {
         "_id": "team.view",
-        "name": "View Team",
-        "_class": "com.cognizant.leap.users.beans.Permission"
+        "name": "View Team"
       }
-    ],
-    "_class": "com.cognizant.leap.users.beans.Role"
+    ]
   },
   {
     "_id": "Viewer",
@@ -219,11 +213,9 @@ db.roles.insert(
       },
       {
         "_id": "team.view",
-        "name": "View Team",
-        "_class": "com.cognizant.leap.users.beans.Permission"
+        "name": "View Team"
       }
-    ],
-    "_class": "com.cognizant.leap.users.beans.Role"
+    ]
   }
 ]
 );

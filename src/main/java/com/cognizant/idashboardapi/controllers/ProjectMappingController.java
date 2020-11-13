@@ -51,6 +51,7 @@ public class ProjectMappingController {
         service.delete(projectId);
     }
 
+    /*Users*/
     @GetMapping("/users/{userId}")
     @ResponseStatus(OK)
     @PreAuthorize("hasPermission(#projectId, 'ProjectMapping','idashboard.project.update')")

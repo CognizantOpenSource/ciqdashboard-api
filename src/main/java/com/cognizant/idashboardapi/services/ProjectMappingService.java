@@ -82,6 +82,7 @@ public class ProjectMappingService {
     }
 
     public List<ProjectMapping> updateWithUser(String userId, List<String> projectIds) {
+        removeUserFormExistingProjects(userId);
         List<ProjectMapping> allById = new ArrayList<>((Collection<? extends ProjectMapping>) repository.findAllById(projectIds));
         allById.forEach(projectMapping -> {
             if (CollectionUtils.isEmpty(projectMapping.getUserIds())){
@@ -92,6 +93,14 @@ public class ProjectMappingService {
         return repository.saveAll(allById);
     }
 
+    private void removeUserFormExistingProjects(String userId) {
+        List<ProjectMapping> list = repository.findByUserIdsContaining(userId);
+        list.stream().forEach(projectMapping -> {
+            projectMapping.getUserIds().remove(userId);
+        });
+        repository.saveAll(list);
+    }
+
     public String getCurrentUserId(){
         UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userPrincipal.getId();
@@ -99,9 +108,6 @@ public class ProjectMappingService {
 
     public List<ProjectMapping> updateWithTeams(String teamId, List<String> projectIds) {
         implRepo.updateWithTeams(teamId, projectIds);
-        /*List<ProjectMapping> allById = new ArrayList<>((Collection<? extends ProjectMapping>) repository.findAllById(projectIds));
-        allById.forEach(projectMapping -> projectMapping.getTeamIds().add(teamId));
-        return repository.saveAll(allById);*/
         return new ArrayList<>((Collection<? extends ProjectMapping>) repository.findAllById(projectIds));
     }
 
@@ -111,9 +117,6 @@ public class ProjectMappingService {
     }
 
     public void deleteTeamIdFromProject(String projectId, String teamId) {
-        /*ProjectMapping projectMapping = assertOrGet(projectId);
-        projectMapping.getTeamIds().remove(teamId);
-        repository.save(projectMapping);*/
         implRepo.removeWithTeams(projectId, teamId);
     }
 }
