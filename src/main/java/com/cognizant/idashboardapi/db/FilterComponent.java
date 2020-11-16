@@ -17,7 +17,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.cognizant.idashboardapi.models.Filter.OPType.between;
+import static com.cognizant.idashboardapi.models.Filter.OPType.*;
 import static com.cognizant.idashboardapi.models.FilterConfig.LogicalOperatorType.AND;
 import static com.cognizant.idashboardapi.models.FilterConfig.LogicalOperatorType.OR;
 
@@ -107,6 +107,13 @@ public class FilterComponent {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
             maxValue = simpleDateFormat.format(Date.from(parse));
+        }
+
+        if ((opType == in || opType == nin)
+                && value instanceof String
+                && StringUtils.hasText(value.toString())
+        ){
+            value = new ArrayList<>(Arrays.asList(((String) value).split(",")));
         }
 
         switch (opType) {
