@@ -116,7 +116,9 @@ public class ValidatorService {
         aggregate.getGroups().forEach(group -> {
             if (null == group.getOperator())
                 throw new InvalidDetailsException("Operator should not be null");
-            List<String> distinct = group.getAggregates().stream().map(FieldAggregate::getField).distinct().collect(Collectors.toList());
+            List<String> distinct = group.getAggregates().stream()
+                    .filter(fieldAggregate -> fieldAggregate.getType() != Type.AggregateType.CONSTANT)
+                    .map(FieldAggregate::getField).distinct().collect(Collectors.toList());
             validateFields(fields, distinct, AGGREGATE_FIELDS);
             group.getAggregates().forEach(fieldAggregate -> fieldAggregateValidation(fieldAggregate, fieldsAndTypes));
         });
