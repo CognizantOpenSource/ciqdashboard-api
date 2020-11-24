@@ -39,7 +39,10 @@ public class ChartItemController {
         return service.assertAndGet(id);
     }
 
-    @GetMapping("/search")
+    /*
+    * Commented for the future implementation
+    * */
+    /*@GetMapping("/search")*/
     @ResponseStatus(OK)
     @PreAuthorize("hasPermission(#chartItemId, 'ChartItem','idashboard.chart.view')")
     public List<IDChartItem> searchByString(@RequestParam String searchString) {

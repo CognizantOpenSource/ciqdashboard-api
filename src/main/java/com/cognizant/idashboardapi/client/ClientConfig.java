@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ClientConfig {
 
-    @Value("${app.npl.api.client.url}")
-    private String appNPLApiClientURL;
+    @Value("${app.nlp.api.client.url}")
+    private String appNLPApiClientURL;
     @Value("${app.auth.client.url}")
     private String appAuthClientURL;
 
@@ -37,7 +37,7 @@ public class ClientConfig {
                 .decoder(new JacksonDecoder())
                 .logger(new Slf4jLogger(NLPApiClient.class))
                 .logLevel(Logger.Level.FULL)
-                .target(NLPApiClient.class, appNPLApiClientURL);
+                .target(NLPApiClient.class, appNLPApiClientURL);
     }
 
 }
