@@ -99,7 +99,13 @@ public class DBAggregationUtilComponent {
             try {
                 return Double.parseDouble(result.toString());
             }catch (Exception e){
-                e.printStackTrace();
+                //***************************************************************************************
+                // Avoid [e.printStackTrace()] a hacker able to identify more details about your program
+                // it gives hackar very clearly sending the actual Exception message
+                //*****************************************************************************************
+                //e.printStackTrace();
+                throw new RuntimeException(e);
+
             }
         }
         return 0D;

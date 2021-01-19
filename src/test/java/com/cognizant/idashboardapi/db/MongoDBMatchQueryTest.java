@@ -32,7 +32,6 @@ class MongoDBMatchQueryTest {
     @Test
     void testMatches(){
         Set<String> collectionNames = template.getCollectionNames();
-        System.out.println(collectionNames);
         Assertions.assertNotNull(collectionNames);
     }
 
@@ -91,7 +90,7 @@ class MongoDBMatchQueryTest {
         MatchOperation criteria = Aggregation.match(Criteria.where("customStringDate").is("2020-07-08"));
         Aggregation aggregation = Aggregation.newAggregation(addFieldsOperation, criteria);
         AggregationResults<Document> aggregate = template.aggregate(aggregation, "jiraIssues", Document.class);
-        System.out.println("test");
+
     }
 
     @Test
@@ -102,7 +101,7 @@ class MongoDBMatchQueryTest {
                 project = project.and(ConditionalOperators.ifNull("sprintStartDate").then("--NA--")).as("sprintStartDate");
         Aggregation aggregation = Aggregation.newAggregation(match, project);
         AggregationResults<Document> aggregate = template.aggregate(aggregation, "jiraIssues", Document.class);
-        System.out.println("test");
+
     }
 
     private void runAggregate(List<Filter> filters){
@@ -114,7 +113,6 @@ class MongoDBMatchQueryTest {
         Aggregation aggregation = Aggregation.newAggregation(Aggregation.match(criteria), Aggregation.limit(10));
         AggregationResults<Document> aggregate = template.aggregate(aggregation, "gitlab_commits", Document.class);
         List<Document> mappedResults = aggregate.getMappedResults();
-        System.out.println(mappedResults);
         Assertions.assertNotNull(mappedResults);
     }
 }

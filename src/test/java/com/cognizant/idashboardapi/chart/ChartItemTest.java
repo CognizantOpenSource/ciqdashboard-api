@@ -15,8 +15,6 @@ class ChartItemTest {
         Optional<Type.ChartItemType> optional = Type.ChartItemType.getChartItemType("pie-chart");
         Type.ChartItemType chartItemType = optional.get();
         Type.GenericChartItemType genericChartItemType = Type.getGenericChartItemType(chartItemType);
-        System.out.println(chartItemType);
-        System.out.println(genericChartItemType);
-        Assertions.assertNotNull(genericChartItemType);
+       Assertions.assertNotNull(genericChartItemType);
     }
 }
