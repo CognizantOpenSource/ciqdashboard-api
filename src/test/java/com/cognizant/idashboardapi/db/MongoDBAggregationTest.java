@@ -31,7 +31,7 @@ class MongoDBAggregationTest {
         Double distinctCount = dbAggregationUtilComponent.getDistinctCount(Arrays.asList(Aggregation.match(Criteria.where("projectId").is(51))),
                 "gitlab_commits",
                 "projectId");
-        System.out.println(distinctCount);
+
     }
 
     @Test

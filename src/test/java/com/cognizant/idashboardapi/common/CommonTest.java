@@ -84,7 +84,6 @@ class CommonTest {
         Object o1 = 11.2D;
         Object o2 = 14.4F;
         Object o3 = 13L;
-        System.out.println(Double.parseDouble(o.toString()));
         Assertions.assertNotNull(o);
     }
 }
