@@ -29,18 +29,18 @@ public class Account {
     private List<String> projectIds;
     private List<String> ownProjectIds;
 
-    @JsonIgnore
-    @CreatedBy
-    private String user;
+   // @JsonIgnore
+    //@CreatedBy
+    //private String user;
     @JsonIgnore
     @CreatedDate
     private Instant createdDate;
-    @JsonIgnore
-    @LastModifiedBy
-    private String lastModifiedUser;
-    @JsonIgnore
-    @LastModifiedDate
-    private Instant lastModifiedDate;
+    //@JsonIgnore
+    //@LastModifiedBy
+   //private String lastModifiedUser;
+    //@JsonIgnore
+    //@LastModifiedDate
+    //private Instant lastModifiedDate;
 
     @JsonIgnore
     @Value("${app.permission.admin}")

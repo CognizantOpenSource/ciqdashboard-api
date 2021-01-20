@@ -11,6 +11,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class ChartMatch {
-    private String name;
-    private List<Object> values;
+    //private String name;
+    //private List<Object> values;
 }

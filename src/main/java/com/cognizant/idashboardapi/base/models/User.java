@@ -25,22 +25,22 @@ public class User {
     private String lastName;
     @Indexed
     private String email;
-    private String image;
+    //private String image;
     private String org;
     private Date modifiedDate = new Date();
     private boolean active;
     @DBRef
     private Account account;
 
-    @JsonIgnore
-    @CreatedBy
-    private String createdUser;
+    //@JsonIgnore
+    //@CreatedBy
+    //private String createdUser;
     @JsonIgnore
     @CreatedDate
     private Date createdDate;
-    @JsonIgnore
-    @LastModifiedBy
-    private String lastModifiedUser;
+    //@JsonIgnore
+    //@LastModifiedBy
+    //private String lastModifiedUser;
     @JsonIgnore
     @LastModifiedDate
     private Instant lastModifiedDate;

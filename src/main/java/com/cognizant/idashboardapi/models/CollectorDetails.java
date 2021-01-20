@@ -19,5 +19,5 @@ public class CollectorDetails extends BaseModel {
     @Indexed(name = "collection-details-name-index", unique = true)
     private String name;
     private String collectionName;
-    private String info;
+    //private String info;
 }

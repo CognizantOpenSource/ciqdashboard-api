@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 @Data
 public class TooltipTemplate {
-    private ArrayList<String> messages;
-    private ArrayList<String> groupView;
+    //private ArrayList<String> messages;
+    //private ArrayList<String> groupView;
     private ArrayList<String> view;
 }

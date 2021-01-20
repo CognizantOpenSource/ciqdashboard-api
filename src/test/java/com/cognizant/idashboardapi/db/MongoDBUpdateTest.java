@@ -12,9 +12,8 @@ public class MongoDBUpdateTest {
     @Autowired
     MongoTemplate template;
 
-    @Test
-    void simpleTest(){
-        Set<String> collectionNames = template.getCollectionNames();
-        System.out.println(collectionNames);
-    }
+    //@Test
+    //void simpleTest(){
+        //Set<String> collectionNames = template.getCollectionNames();
+    //}
 }

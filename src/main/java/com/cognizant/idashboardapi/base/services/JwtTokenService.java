@@ -93,11 +93,11 @@ public class JwtTokenService {
         return null;
     }
 
-    public String getUserIdFromJWT(String token) {
+/*    public String getUserIdFromJWT(String token) {
         Claims claims = getClaims(token);
 
         return claims.getSubject();
-    }
+    }*/
 
     public boolean validateToken(String token) {
         Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
