@@ -11,5 +11,5 @@ import java.util.ArrayList;
 public class TooltipTemplate {
     //private ArrayList<String> messages;
     //private ArrayList<String> groupView;
-    private ArrayList<String> view;
+    //private ArrayList<String> view;
 }
