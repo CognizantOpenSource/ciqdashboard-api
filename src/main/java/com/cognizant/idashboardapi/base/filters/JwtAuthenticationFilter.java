@@ -62,10 +62,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String uuidToken = "";
         if (StringUtils.hasText(bearerToken)) {
             uuidToken = TokenUtil.getUUIDStringFromToken(bearerToken);
-            if (StringUtils.hasText(uuidToken)) {
-                String tokenFromDB = tokenProvider.getTokenFromDB(uuidToken);
-                if (StringUtils.hasText(tokenFromDB)) return tokenFromDB;
-            }
+            //if (StringUtils.hasText(uuidToken)) {
+                //String tokenFromDB = ''; //tokenProvider.getTokenFromDB(uuidToken);
+                //if (StringUtils.hasText(tokenFromDB)) return tokenFromDB;
+            //}
         }
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);

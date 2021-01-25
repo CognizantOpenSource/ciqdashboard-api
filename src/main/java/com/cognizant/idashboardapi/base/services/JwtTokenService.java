@@ -5,8 +5,6 @@ import com.cognizant.idashboardapi.base.models.JwtSecurityConstants;
 import com.cognizant.idashboardapi.base.models.Permission;
 import com.cognizant.idashboardapi.base.models.User;
 import com.cognizant.idashboardapi.errors.InvalidAuthenticationException;
-import com.cognizant.idashboardapi.models.AppTokenStore;
-import com.cognizant.idashboardapi.services.AppTokenStoreService;
 import com.cognizant.idashboardapi.services.ProjectMappingService;
 import com.cognizant.idashboardapi.services.UserSessionService;
 import io.jsonwebtoken.Claims;
@@ -40,8 +38,8 @@ public class JwtTokenService {
 
     private String secretKey;
 
-    @Autowired
-    AppTokenStoreService appTokenStoreService;
+    //@Autowired
+    //AppTokenStoreService appTokenStoreService;
     @Autowired
     ProjectMappingService projectMappingService;
     @Autowired
@@ -149,13 +147,13 @@ public class JwtTokenService {
                 .getBody();
     }
 
-    public String getTokenFromDB(String uuidToken){
-        Optional<AppTokenStore> optional = appTokenStoreService.get(uuidToken);
-        if (optional.isPresent()) {
-            return optional.get().getToken();
-        }
-        return "";
-    }
+    //public String getTokenFromDB(String uuidToken){
+        //Optional<AppTokenStore> optional = appTokenStoreService.get(uuidToken);
+        //if (optional.isPresent()) {
+            //return optional.get().getToken();
+        //}
+        //return "";
+    //}
 
     public void validateUserSession(String jwt)  {
         boolean isValidSession = userSessionService.validateSession(getClaims(jwt));
