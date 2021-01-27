@@ -23,17 +23,17 @@ public class DataGridChartData {
         private List<DataGridHeaderCell> header;
         private List<DataGridRow> rows;
 
-        public DataGridChartDataBuilder header(@NonNull DataGridHeaderCell... header) {
+        public DataGridChartDataBuilder chardataheader(@NonNull DataGridHeaderCell... header) {
             this.header = Arrays.asList(header);
             return this;
         }
 
-        public DataGridChartData rows(@NonNull Map... rows) {
+        public DataGridChartData chartdatarows(@NonNull Map... rows) {
             this.rows = Arrays.asList(rows).stream().map(DataGridRow::new).collect(Collectors.toList());
             return this.build();
         }
 
-        public DataGridChartData rows(@NonNull List<DataGridRow> rows) {
+        public DataGridChartData chartdatarows(@NonNull List<DataGridRow> rows) {
             this.rows = rows;
             return this.build();
         }

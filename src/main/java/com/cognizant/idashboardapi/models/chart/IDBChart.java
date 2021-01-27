@@ -21,21 +21,21 @@ public class IDBChart {
     private ChartTemplate template;
     private Object data;
 
-    public void data(@NonNull ChartData... data) {
+    public void datavalue(@NonNull ChartData... data) {
         setData(Arrays.asList(data));
     }
 
     public static class IDBChartBuilder {
 
-        public IDBChart data(@NonNull ChartData... data) {
+        public IDBChart chartdata(@NonNull ChartData... data) {
             this.data = Arrays.asList(data);
             return this.build();
         }
-        public IDBChart data(@NonNull List<ChartData> data) {
+        public IDBChart lstchartdata(@NonNull List<ChartData> data) {
             this.data = data;
             return this.build();
         }
-        public IDBChart data(@NonNull DataGridChartData data) {
+        public IDBChart grdchartdata(@NonNull DataGridChartData data) {
             this.data = data;
             return this.build();
         }

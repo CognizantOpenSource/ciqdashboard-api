@@ -68,7 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return bean;
     }
 
-    private HttpSecurity cors(HttpSecurity http) throws Exception {
+   private HttpSecurity cors(HttpSecurity http) throws Exception {
             if (corsEnabled) {
                 return http.cors().and();
             } else {
@@ -84,7 +84,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(HttpSecurity http) throws IOException, ServletException {
+    public void configure(HttpSecurity http) throws Exception {
 
             log.info("configure(HttpSecurity): Processing");
             ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = cors(http)
