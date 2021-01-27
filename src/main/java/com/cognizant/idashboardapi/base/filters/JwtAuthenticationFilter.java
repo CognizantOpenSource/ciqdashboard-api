@@ -59,9 +59,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String uuidToken = "";
+        //String uuidToken = "";
         if (StringUtils.hasText(bearerToken)) {
-            uuidToken = TokenUtil.getUUIDStringFromToken(bearerToken);
+            //uuidToken = TokenUtil.getUUIDStringFromToken(bearerToken);
             //if (StringUtils.hasText(uuidToken)) {
                 //String tokenFromDB = ''; //tokenProvider.getTokenFromDB(uuidToken);
                 //if (StringUtils.hasText(tokenFromDB)) return tokenFromDB;

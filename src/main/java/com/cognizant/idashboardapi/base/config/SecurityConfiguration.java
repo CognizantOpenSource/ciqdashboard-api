@@ -84,8 +84,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(HttpSecurity http) {
-        try {
+    public void configure(HttpSecurity http) throws IOException, ServletException {
+
             log.info("configure(HttpSecurity): Processing");
             ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = cors(http)
                     /**
@@ -107,10 +107,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             registry.anyRequest().authenticated();
             http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        }
-        catch(Exception ex) {
-            log.info("configure(HttpSecurity): Error");
-        }
+
 
     }
 
