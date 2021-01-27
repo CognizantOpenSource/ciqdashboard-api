@@ -19,5 +19,5 @@ public class ChartAggregation {
     private LinkedHashMap<String, String> sort;
     //private String dateValue; // Not Used
     private int level;
-    private int limit;
+    //private int limit;
 }

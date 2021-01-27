@@ -12,7 +12,7 @@ public class IDItemConfig {
     private String id;
     @NotBlank(message = "Name should not be empty/null")
     @Size(min = 4, message = "Name minimum characters should be '4' ")
-    private String name;
+    //private String name;
     private String description;
     @NotBlank(message = "Type should not be empty/null")
     @Size(min = 3, message = "Type minimum characters should be '3' ")
