@@ -68,12 +68,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return bean;
     }
 
-    private HttpSecurity cors(HttpSecurity http) throws Exception {
-        if (corsEnabled) {
-            return http.cors().and();
-        } else {
-            return http;
-        }
+   private HttpSecurity cors(HttpSecurity http) throws Exception {
+            if (corsEnabled) {
+                return http.cors().and();
+            } else {
+                return http;
+            }
     }
 
     private void permitMatch(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry, String text) {
@@ -85,26 +85,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        log.info("configure(HttpSecurity): Processing");
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = cors(http)
-                /**
-                 * disable csrf as application uses jwt token for auth not sessions
-                 */
-                .csrf().disable()
-                .authorizeRequests();
-        permitMatch(registry, "auth/token");
-        permitMatch(registry, "auth/signup");
-        permitMatch(registry, "v2/api-docs");
-        permitMatch(registry, "v3/api-docs");
-        permitMatch(registry, "docs");
-        permitMatch(registry, "swagger-resources");
-        permitMatch(registry, "swagger-ui");
-        permitMatch(registry, "swagger-ui.html");
-        http.exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint);
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        registry.anyRequest().authenticated();
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+            log.info("configure(HttpSecurity): Processing");
+            ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = cors(http)
+                    /**
+                     * disable csrf as application uses jwt token for auth not sessions
+                     */
+                    .csrf().disable()
+                    .authorizeRequests();
+            permitMatch(registry, "auth/token");
+            permitMatch(registry, "auth/signup");
+            permitMatch(registry, "v2/api-docs");
+            permitMatch(registry, "v3/api-docs");
+            permitMatch(registry, "docs");
+            permitMatch(registry, "swagger-resources");
+            permitMatch(registry, "swagger-ui");
+            permitMatch(registry, "swagger-ui.html");
+            http.exceptionHandling()
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint);
+            http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            registry.anyRequest().authenticated();
+            http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
 
     }
 

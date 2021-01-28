@@ -5,8 +5,6 @@ import com.cognizant.idashboardapi.base.models.JwtSecurityConstants;
 import com.cognizant.idashboardapi.base.models.Permission;
 import com.cognizant.idashboardapi.base.models.User;
 import com.cognizant.idashboardapi.errors.InvalidAuthenticationException;
-import com.cognizant.idashboardapi.models.AppTokenStore;
-import com.cognizant.idashboardapi.services.AppTokenStoreService;
 import com.cognizant.idashboardapi.services.ProjectMappingService;
 import com.cognizant.idashboardapi.services.UserSessionService;
 import io.jsonwebtoken.Claims;
@@ -40,8 +38,8 @@ public class JwtTokenService {
 
     private String secretKey;
 
-    @Autowired
-    AppTokenStoreService appTokenStoreService;
+    //@Autowired
+    //AppTokenStoreService appTokenStoreService;
     @Autowired
     ProjectMappingService projectMappingService;
     @Autowired
@@ -52,38 +50,6 @@ public class JwtTokenService {
         secretKey = Base64.getEncoder().encodeToString(appSecretKey.getBytes());
     }
 
-    public Map<String, Object> generateToken(User user) {
-        return generateToken(user, 0);
-    }
-
-    public Map<String, Object> generateToken(User user, int days) {
-        log.info("Generating token for {}", user.getEmail());
-        Date now = new Date();
-        Date validity;
-        if (days >= 1) {
-            validity = new Date(now.getTime() + (days * oneDayMilliSec));
-        } else {
-            validity = new Date(now.getTime() + appExpirationInMs);
-        }
-        String permissions = user.getAccount().getRoles().stream()
-                .flatMap(role -> role.getPermissions().stream())
-                .map(Permission::getId).collect(Collectors.joining(","));
-        Claims claims = Jwts.claims().setSubject(user.getId());
-        Object jwtToken = Jwts.builder()
-                .setClaims(claims)
-                .claim("permissions", permissions)
-                .claim("email", user.getEmail())
-                .claim("firstName", user.getFirstName())
-                .claim("lastName", user.getLastName())
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put(JwtSecurityConstants.AUTH_TOKEN, jwtToken);
-        result.put(JwtSecurityConstants.EXPIRES_AT, validity);
-        return result;
-    }
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(JwtSecurityConstants.HEADER_STRING);
@@ -93,11 +59,11 @@ public class JwtTokenService {
         return null;
     }
 
-    public String getUserIdFromJWT(String token) {
+/*    public String getUserIdFromJWT(String token) {
         Claims claims = getClaims(token);
 
         return claims.getSubject();
-    }
+    }*/
 
     public boolean validateToken(String token) {
         Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
@@ -149,13 +115,13 @@ public class JwtTokenService {
                 .getBody();
     }
 
-    public String getTokenFromDB(String uuidToken){
-        Optional<AppTokenStore> optional = appTokenStoreService.get(uuidToken);
-        if (optional.isPresent()) {
-            return optional.get().getToken();
-        }
-        return "";
-    }
+    //public String getTokenFromDB(String uuidToken){
+        //Optional<AppTokenStore> optional = appTokenStoreService.get(uuidToken);
+        //if (optional.isPresent()) {
+            //return optional.get().getToken();
+        //}
+        //return "";
+    //}
 
     public void validateUserSession(String jwt)  {
         boolean isValidSession = userSessionService.validateSession(getClaims(jwt));

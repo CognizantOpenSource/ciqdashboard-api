@@ -17,7 +17,7 @@ public class ChartAggregation {
     private List<String> excludeFields;
     private LinkedHashMap<String, Object> projectionWithAlias;
     private LinkedHashMap<String, String> sort;
-    private String dateValue;
+    //private String dateValue; // Not Used
     private int level;
-    private int limit;
+    //private int limit;
 }

@@ -125,9 +125,9 @@ public class UserPrincipal implements UserDetails {
         this.account = account;
     }
 
-    @JsonIgnore
-    @Value("${app.permission.admin://}")
-    private String adminPermission;
+    //@JsonIgnore
+    //@Value("${app.permission.admin://}")
+    //private String adminPermission;
 
     @Override
     public String toString() {

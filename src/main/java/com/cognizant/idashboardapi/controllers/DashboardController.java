@@ -23,7 +23,7 @@ public class DashboardController {
 
     private IDashboardService service;
     private IDashboardProjectService projectService;
-    private UserValidationService userValidationService;
+    public UserValidationService userValidationService;
 
     @GetMapping
     @ResponseStatus(OK)

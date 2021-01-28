@@ -16,19 +16,19 @@ import java.util.List;
 public class Role {
     @Id
     private String name;
-    private String desc;
+    //private String desc;
     private List<Permission> permissions;
 
-    @JsonIgnore
-    @CreatedBy
-    private String user;
-    @JsonIgnore
-    @CreatedDate
-    private Instant createdDate;
-    @JsonIgnore
-    @LastModifiedBy
-    private String lastModifiedUser;
-    @JsonIgnore
-    @LastModifiedDate
-    private Instant lastModifiedDate;
+   //@JsonIgnore
+    //@CreatedBy
+    //private String user;
+    //@JsonIgnore
+    //@CreatedDate
+    //private Instant createdDate;
+   //@JsonIgnore
+    //@LastModifiedBy
+    //private String lastModifiedUser;
+   // @JsonIgnore
+    //@LastModifiedDate
+    //private Instant lastModifiedDate;
 }

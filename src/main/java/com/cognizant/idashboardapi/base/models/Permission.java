@@ -17,8 +17,8 @@ public class Permission {
     @NotBlank(message = "Id should not be empty")
     @Size(min = 4, message = "Id should have at least 4 characters")
     private String id;
-    @NotBlank(message = "Name should not be empty")
-    @Size(min = 4, message = "Name should have at least 4 characters")
-    private String name;
+    //@NotBlank(message = "Name should not be empty")
+    //@Size(min = 4, message = "Name should have at least 4 characters")
+    //private String name;
 
 }
