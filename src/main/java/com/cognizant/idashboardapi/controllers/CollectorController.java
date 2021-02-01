@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,7 @@ public class CollectorController {
 
     @PostMapping("/create-view")
     @Validated
+    @PreAuthorize("hasPermission(#DataSourceId, 'DataSource','idashboard.datasource.create')")
     public ResponseEntity<ApiResponse> createView(@Valid @RequestBody ViewDetails viewDetails, HttpServletRequest request) {
         if (!viewDetails.getName().startsWith(Constants.COLLECTION_FILTER_SOURCE))
             throw new InvalidDetailsException(String.format("View name should start with '%s'", Constants.COLLECTION_FILTER_SOURCE));
