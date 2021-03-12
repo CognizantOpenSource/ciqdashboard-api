@@ -1,92 +1,92 @@
 db.permissions.insert(
   [
     {
-      "_id" : "idashboard.create",
+      "_id" : "ciqdashboard.create",
       "name" : "Create Dashboard"
     },
     {
-      "_id" : "idashboard.update",
+      "_id" : "ciqdashboard.update",
       "name" : "Update Dashboard"
     },
     {
-      "_id" : "idashboard.delete",
+      "_id" : "ciqdashboard.delete",
       "name" : "Delete Dashboard"
     },
     {
-      "_id" : "idashboard.view",
+      "_id" : "ciqdashboard.view",
       "name" : "View Dashboard"
     },
 
     {
-      "_id" : "idashboard.project.create",
+      "_id" : "ciqdashboard.project.create",
       "name" : "Create Dashboard Project"
     },
     {
-      "_id" : "idashboard.project.update",
+      "_id" : "ciqdashboard.project.update",
       "name" : "Update Dashboard Project"
     },
     {
-      "_id" : "idashboard.project.delete",
+      "_id" : "ciqdashboard.project.delete",
       "name" : "Delete Dashboard Project"
     },
     {
-      "_id" : "idashboard.project.view",
+      "_id" : "ciqdashboard.project.view",
       "name" : "View Dashboard Project"
     },
 
     {
-      "_id" : "idashboard.external.data.update",
+      "_id" : "ciqdashboard.external.data.update",
       "name" : "Upload external data"
     },
 
     {
-      "_id" : "idashboard.datasource.create",
+      "_id" : "ciqdashboard.datasource.create",
       "name" : "Create Dashboard Datasource"
     },
     {
-      "_id" : "idashboard.datasource.update",
+      "_id" : "ciqdashboard.datasource.update",
       "name" : "Update Dashboard Datasource"
     },
     {
-      "_id" : "idashboard.datasource.delete",
+      "_id" : "ciqdashboard.datasource.delete",
       "name" : "Delete Dashboard Datasource"
     },
     {
-      "_id" : "idashboard.datasource.view",
+      "_id" : "ciqdashboard.datasource.view",
       "name" : "View Dashboard Datasource"
     },
 
     {
-      "_id" : "idashboard.chart.create",
+      "_id" : "ciqdashboard.chart.create",
       "name" : "Create Dashboard Chart"
     },
     {
-      "_id" : "idashboard.chart.update",
+      "_id" : "ciqdashboard.chart.update",
       "name" : "Update Dashboard Chart"
     },
     {
-      "_id" : "idashboard.chart.delete",
+      "_id" : "ciqdashboard.chart.delete",
       "name" : "Delete Dashboard Chart"
     },
     {
-      "_id" : "idashboard.chart.view",
+      "_id" : "ciqdashboard.chart.view",
       "name" : "View Dashboard Chart"
     },
 
     {
-      "_id" : "idashboard.page.create",
+      "_id" : "ciqdashboard.page.create",
       "name" : "Create Dashboard Page"
     },
     {
-      "_id" : "idashboard.page.update",
+      "_id" : "ciqdashboard.page.update",
       "name" : "Update Dashboard Page"
     },
     {
-      "_id" : "idashboard.page.delete",
+      "_id" : "ciqdashboard.page.delete",
       "name" : "Delete Dashboard Page"
     },
     {
-      "_id" : "idashboard.page.view",
+      "_id" : "ciqdashboard.page.view",
       "name" : "View Dashboard Page"
     }
   ]
