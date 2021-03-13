@@ -41,14 +41,14 @@ public class CIQDashboardDataSourceService {
         }
     }
 
-    public CIQDashboardDataSource add(CIQDashboardDataSource iDashboardDataSource) {
-        assertInsert(iDashboardDataSource);
-        return repository.insert(iDashboardDataSource);
+    public CIQDashboardDataSource add(CIQDashboardDataSource ciqDashboardDataSource) {
+        assertInsert(ciqDashboardDataSource);
+        return repository.insert(ciqDashboardDataSource);
     }
 
-    public CIQDashboardDataSource update(CIQDashboardDataSource iDashboardDataSource) {
-        assertUpdate(iDashboardDataSource);
-        return repository.save(iDashboardDataSource);
+    public CIQDashboardDataSource update(CIQDashboardDataSource ciqDashboardDataSource) {
+        assertUpdate(ciqDashboardDataSource);
+        return repository.save(ciqDashboardDataSource);
     }
 
     public void deleteById(String id) {
@@ -77,23 +77,23 @@ public class CIQDashboardDataSourceService {
         repository.deleteByIdIn(ids);
     }
 
-    private void assertInsert(CIQDashboardDataSource iDashboardDataSource) {
-        if (!StringUtils.isEmpty(iDashboardDataSource.getId())) {
+    private void assertInsert(CIQDashboardDataSource ciqDashboardDataSource) {
+        if (!StringUtils.isEmpty(ciqDashboardDataSource.getId())) {
             throw new InvalidDetailsException("Id field should be empty/null");
         }
-        assertCollectionName(iDashboardDataSource.getCollectionName());
-        Optional<CIQDashboardDataSource> byName = getByNameIgnoreCase(iDashboardDataSource.getName());
+        assertCollectionName(ciqDashboardDataSource.getCollectionName());
+        Optional<CIQDashboardDataSource> byName = getByNameIgnoreCase(ciqDashboardDataSource.getName());
         if (byName.isPresent()) {
-            throw new ResourceExistsException("DataSource", "name", iDashboardDataSource.getName());
+            throw new ResourceExistsException("DataSource", "name", ciqDashboardDataSource.getName());
         }
     }
 
-    private void assertUpdate(CIQDashboardDataSource iDashboardDataSource) {
-        assertAndGet(iDashboardDataSource.getId());
-        assertCollectionName(iDashboardDataSource.getCollectionName());
-        Optional<CIQDashboardDataSource> optional = getByNameIgnoreCase(iDashboardDataSource.getName());
-        if (optional.isPresent() && !optional.get().getId().equals(iDashboardDataSource.getId())) {
-            throw new ResourceExistsException("DataSource", "name", iDashboardDataSource.getName());
+    private void assertUpdate(CIQDashboardDataSource ciqDashboardDataSource) {
+        assertAndGet(ciqDashboardDataSource.getId());
+        assertCollectionName(ciqDashboardDataSource.getCollectionName());
+        Optional<CIQDashboardDataSource> optional = getByNameIgnoreCase(ciqDashboardDataSource.getName());
+        if (optional.isPresent() && !optional.get().getId().equals(ciqDashboardDataSource.getId())) {
+            throw new ResourceExistsException("DataSource", "name", ciqDashboardDataSource.getName());
         }
     }
 

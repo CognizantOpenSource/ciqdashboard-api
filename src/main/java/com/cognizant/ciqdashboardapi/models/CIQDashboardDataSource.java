@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Document(collection = "iDashboardDataSources")
+@Document(collection = "ciqDashboardDataSources")
 public class CIQDashboardDataSource extends BaseModel {
     private String id;
     @NotBlank(message = "Name should not be empty/null")

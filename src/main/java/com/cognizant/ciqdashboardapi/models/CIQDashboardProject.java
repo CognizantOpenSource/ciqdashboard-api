@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@Document(collection = "iDashboardProjects")
+@Document(collection = "ciqDashboardProjects")
 public class CIQDashboardProject extends BaseModel {
     private String id;
     @NotBlank(message = "Name should not be empty/null")

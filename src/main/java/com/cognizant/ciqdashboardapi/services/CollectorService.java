@@ -67,8 +67,8 @@ public class CollectorService {
     }
 
     public Set<String> getDistinctValuesBySourceField(String sourceName, String fieldName) {
-        CIQDashboardDataSource iDashboardDataSource = dataSourceService.assertAndGetByName(sourceName);
-        return getDistinctValuesByField(iDashboardDataSource.getCollectionName(), fieldName);
+        CIQDashboardDataSource ciqDashboardDataSource = dataSourceService.assertAndGetByName(sourceName);
+        return getDistinctValuesByField(ciqDashboardDataSource.getCollectionName(), fieldName);
     }
 
     /**

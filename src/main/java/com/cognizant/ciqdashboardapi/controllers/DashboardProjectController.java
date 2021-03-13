@@ -48,8 +48,8 @@ public class DashboardProjectController {
     @ResponseStatus(OK)
     @PreAuthorize("hasPermission(#id, 'Project','ciqdashboard.project.view')")
     public List<CIQDashboard> getDashboards(@PathVariable String id) {
-        CIQDashboardProject iDashboardProject = get(id);
-        return dashboardService.getByProjectName(iDashboardProject.getName());
+        CIQDashboardProject ciqDashboardProject = get(id);
+        return dashboardService.getByProjectName(ciqDashboardProject.getName());
     }
 
     @PostMapping
