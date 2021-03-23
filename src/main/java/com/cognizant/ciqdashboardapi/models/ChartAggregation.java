@@ -14,4 +14,28 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models;
+
+import com.cognizant.ciqdashboardapi.models.chart.ChartMatch;
+import lombok.Data;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+
+/**
+ * ChartAggregation
+ * @author Cognizant
+ */
+
+@Data
+public class ChartAggregation {
+    private List<ChartMatch> matches;
+    private List<String> groupBy;
+    private List<String> projection;
+    private List<String> excludeFields;
+    private LinkedHashMap<String, Object> projectionWithAlias;
+    private LinkedHashMap<String, String> sort;
+    //private String dateValue; // Not Used
+    private int level;
+    //private int limit;
+}

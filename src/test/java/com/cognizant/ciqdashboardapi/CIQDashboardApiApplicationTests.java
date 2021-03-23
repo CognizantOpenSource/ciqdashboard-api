@@ -14,4 +14,21 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+/**
+ * CIQDashboardApiApplicationTests
+ * @author Cognizant
+ */
+
+@SpringBootTest
+class CIQDashboardApiApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}

@@ -14,4 +14,24 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models.aggregate;
+
+import lombok.Data;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
+
+/**
+ * GroupAggregate
+ * @author Cognizant
+ */
+
+@Data
+public class GroupAggregate {
+    @NotEmpty(message = "Name should not be empty/null")
+    private String name;
+    @NotEmpty(message = "Groups should not be empty/null")
+    @Valid
+    private List<FieldAggregateGroup> groups;
+}

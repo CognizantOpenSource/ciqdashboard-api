@@ -14,4 +14,25 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models;
+
+import lombok.Data;
+
+import java.util.List;
+
+/**
+ * FilterConfig
+ * @author Cognizant
+ */
+
+@Data
+public class FilterConfig {
+    private String name;
+    private LogicalOperatorType logicalOperator = LogicalOperatorType.AND;
+    private List<Filter> configs;
+    private Boolean active;
+
+    public enum LogicalOperatorType{
+        OR, AND
+    }
+}

@@ -14,4 +14,20 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models;
+
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
+import java.util.Set;
+
+/**
+ * DatabaseDetailsComponent
+ * @author Cognizant
+ */
+
+@Component
+@Data
+public class DatabaseDetailsComponent {
+    private Set<String> collectionNames;
+}

@@ -14,4 +14,19 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models.chart;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+/**
+ * ChartMatch
+ * @author Cognizant
+ */
+
+@Data
+@AllArgsConstructor
+public class ChartMatch {
+    //private String name;
+    //private List<Object> values;
+}

@@ -14,4 +14,24 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models.db.view;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.List;
+/**
+ * CollectionDetailsForView
+ * @author Cognizant
+ */
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class CollectionDetailsForView extends BaseCollectionDetailsForView {
+    private List<LocalForeignField> localForeignFields;
+    private String alias;
+
+    public String getAlias() {
+        return null == alias ? getName() : alias;
+    }
+}

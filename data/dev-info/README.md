@@ -328,7 +328,7 @@ db.inventoryTest.aggregate(
                "field":"projectName",
                "op":"in",
                "value":[
-                  "idashboard-api"
+                  "ciqdashboard-api"
                ]
             }
          ],
@@ -524,7 +524,7 @@ db.source_gitlab_commits.aggregate([
           "field": "projectName",
           "op": "in",
           "value": [
-            "idashboard-api"
+            "ciqdashboard-api"
           ],
           "maxValue": null
         }
@@ -538,7 +538,7 @@ db.source_gitlab_commits.aggregate([
           "field": "projectName",
           "op": "in",
           "value": [
-            "idashboard-api"
+            "ciqdashboard-api"
           ],
           "maxValue": null
         }
@@ -552,7 +552,7 @@ db.source_gitlab_commits.aggregate([
           "field": "projectName",
           "op": "in",
           "value": [
-            "idashboard-api"
+            "ciqdashboard-api"
           ],
           "maxValue": null
         }
@@ -574,7 +574,7 @@ db.source_gitlab_commits.aggregate([
               "field": "projectName",
               "op": "in",
               "value": [
-                "idashboard-api"
+                "ciqdashboard-api"
               ],
               "maxValue": null
             }
@@ -598,7 +598,7 @@ db.source_gitlab_commits.aggregate([
               "field": "projectName",
               "op": "in",
               "value": [
-                "idashboard-api"
+                "ciqdashboard-api"
               ],
               "maxValue": null
             }
@@ -627,7 +627,7 @@ db.source_gitlab_commits.aggregate([
       "value": null,
       "children": [
         {
-          "name": "idashboard-api",
+          "name": "ciqdashboard-api",
           "value": 5,
           "children": [
             {
@@ -654,7 +654,7 @@ db.source_gitlab_commits.aggregate([
       "value": null,
       "children": [
         {
-          "name": "idashboard-api",
+          "name": "ciqdashboard-api",
           "value": 5,
           "children": [
             {
@@ -696,7 +696,7 @@ db.source_gitlab_commits.aggregate([
                "field":"projectName",
                "op":"in",
                "value":[
-                  "idashboard-api"
+                  "ciqdashboard-api"
                ]
             }
          ],

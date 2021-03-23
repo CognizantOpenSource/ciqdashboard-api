@@ -14,4 +14,18 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models;
+
+import lombok.Data;
+
+import java.util.List;
+/**
+ * AggregateConfig
+ * @author Cognizant
+ */
+
+@Data
+public class AggregateConfig {
+    private List<String> fields;
+    private Type.AggregateType type;
+}

@@ -14,4 +14,15 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.errors;
+
+/**
+ * InvalidAuthenticationException
+ * @author Cognizant
+ */
+
+public class InvalidAuthenticationException extends RuntimeException {
+    public InvalidAuthenticationException() {
+        super("Invalid authentication details");
+    }
+}

@@ -14,4 +14,26 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.base.models;
+
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+/**
+ * Permission - Refers Permission collection in mongodb
+ * @author Cognizant
+ */
+
+@Data
+@Document(collection = "permissions")
+public class Permission {
+    @Id
+    @NotBlank(message = "Id should not be empty")
+    @Size(min = 4, message = "Id should have at least 4 characters")
+    private String id;
+
+}

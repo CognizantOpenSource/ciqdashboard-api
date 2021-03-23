@@ -14,4 +14,18 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models.chart;
+
+import lombok.Data;
+
+/**
+ * TooltipTemplate
+ * @author Cognizant
+ */
+
+@Data
+public class TooltipTemplate {
+    //private ArrayList<String> messages;
+    //private ArrayList<String> groupView;
+    //private ArrayList<String> view;
+}

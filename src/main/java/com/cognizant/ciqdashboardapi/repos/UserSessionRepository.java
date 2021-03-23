@@ -14,4 +14,15 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.repos;
+
+import com.cognizant.ciqdashboardapi.models.UserSession;
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+/**
+ * UserSessionRepository
+ * @author Cognizant
+ */
+
+public interface UserSessionRepository extends MongoRepository<UserSession, String> {
+}

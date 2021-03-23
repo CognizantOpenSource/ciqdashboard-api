@@ -14,4 +14,23 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models.chart.data;
+
+import lombok.Builder;
+import lombok.Data;
+
+/**
+ * DataGridHeaderCell
+ * @author Cognizant
+ */
+
+@Data
+@Builder
+public class DataGridHeaderCell {
+    private String name;
+    private String label;
+
+    public String toString(){
+        return String.format("(name=%s, label=%s)",name,label);
+    }
+}

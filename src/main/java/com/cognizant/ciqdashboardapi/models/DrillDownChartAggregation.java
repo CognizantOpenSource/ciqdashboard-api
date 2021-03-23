@@ -14,4 +14,20 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+/**
+ * DrillDownChartAggregation
+ * @author Cognizant
+ */
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class DrillDownChartAggregation extends GroupByAggregation {
+    @JsonIgnore
+    private int level;
+}

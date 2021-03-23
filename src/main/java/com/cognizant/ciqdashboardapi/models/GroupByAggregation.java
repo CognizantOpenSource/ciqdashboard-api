@@ -14,4 +14,20 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.models;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.List;
+
+/**
+ * GroupByAggregation
+ * @author Cognizant
+ */
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+public class GroupByAggregation extends FilterAggregation {
+    private List<String> groupBy;
+}

@@ -14,4 +14,23 @@
  *     limitations under the License.
  */
 
-rootProject.name = 'ciqdashboard-api'
+package com.cognizant.ciqdashboardapi.base.models;
+
+import lombok.Data;
+import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+
+/**
+ * Role - Refers to Role collection in mongodb
+ * @author Cognizant
+ */
+
+@Data
+@Document(collection = "roles")
+public class Role {
+    @Id
+    private String name;
+    private List<Permission> permissions;
+}
