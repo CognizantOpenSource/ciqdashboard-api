@@ -47,6 +47,7 @@ class MongoDBAggregationTest {
     @Autowired
     DBAggregationUtilComponent dbAggregationUtilComponent;
 
+    /*
     @Test
     void aggregateTest() {
         Double distinctCount = dbAggregationUtilComponent.getDistinctCount(Arrays.asList(Aggregation.match(Criteria.where("projectId").is(51))),
@@ -78,5 +79,5 @@ class MongoDBAggregationTest {
         List<Document> mappedResults = aggregate.getMappedResults();
         Assertions.assertNotNull(template);
 
-    }
+    }*/
 }

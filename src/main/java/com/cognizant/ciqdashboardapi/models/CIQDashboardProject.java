@@ -19,6 +19,7 @@ package com.cognizant.ciqdashboardapi.models;
 import com.cognizant.ciqdashboardapi.base.models.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.json.simple.JSONArray;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -36,8 +37,11 @@ import javax.validation.constraints.Size;
 public class CIQDashboardProject extends BaseModel {
     private String id;
     @NotBlank(message = "Name should not be empty/null")
-    @Size(min = 4, message = "Name minimum characters should be '4' ")
+    @Size(min = 3, message = "Name minimum characters should be '3' ")
     @Indexed(unique = true)
     private String name;
     private String description;
+    private String lobId;
+    private String orgId;
+    private JSONArray sourceTools;
 }

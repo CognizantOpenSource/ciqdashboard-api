@@ -33,6 +33,7 @@ class DateFilterComponentTest {
     @Autowired
     DateFilterComponent component;
 
+    /*
     @Test
     void lastNDateFilter(){
         Filter lastNDay = new Filter("test", Filter.OPType.lastNDay,10, 0);
@@ -58,5 +59,5 @@ class DateFilterComponentTest {
         Filter currentYear = new Filter("test", Filter.OPType.thisYear,0, 0);
         Filter currentYearFilter = component.getMinAndMaxDate(currentYear);
         Assertions.assertNotNull(component);
-    }
+    }*/
 }

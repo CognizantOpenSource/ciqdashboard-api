@@ -20,6 +20,8 @@ import com.cognizant.ciqdashboardapi.errors.InvalidDetailsException;
 import com.cognizant.ciqdashboardapi.errors.ResourceExistsException;
 import com.cognizant.ciqdashboardapi.errors.ResourceNotFoundException;
 import com.cognizant.ciqdashboardapi.models.CIQDashboard;
+import com.cognizant.ciqdashboardapi.models.Filter;
+import com.cognizant.ciqdashboardapi.models.FilterConfig;
 import com.cognizant.ciqdashboardapi.repos.CIQDashboardRepository;
 import com.cognizant.ciqdashboardapi.repos.impl.CIQDashboardRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ import java.util.Optional;
 
 /**
  * CIQDashboardService
+ *
  * @author Cognizant
  */
 
@@ -43,80 +46,115 @@ public class CIQDashboardService {
     @Autowired
     CIQDashboardRepositoryImpl implRepo;
 
-    public List<CIQDashboard> getAllByPermissions(){
+    public List<CIQDashboard> getAllByPermissions() {
         return implRepo.findAll();
     }
 
-    public List<CIQDashboard> getAll(){
+    public List<CIQDashboard> getAll() {
         return repository.findAll();
     }
 
-    public Optional<CIQDashboard> get(String id){
+    public List<CIQDashboard> getAllByCategory(String category) {
+        return repository.findByCategory(category);
+    }
+
+    public Optional<CIQDashboard> get(String id) {
         return implRepo.findById(id);
     }
 
-    public Optional<CIQDashboard> getByNameIgnoreCase(String name){
-        return repository.findByNameIgnoreCase(name);
+    public Optional<CIQDashboard> getByNameIgnoreCaseAndProjectName(String name,String projectName) {
+        return repository.findByNameAndProjectName(name,projectName);
     }
 
-    public CIQDashboard assertAndGet(String id){
+    public CIQDashboard assertAndGet(String id) {
         Optional<CIQDashboard> optional = get(id);
-        if (optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
-        }else {
+        } else {
             throw new ResourceNotFoundException("Dashboard", "id", id);
         }
     }
 
-    public List<CIQDashboard> getByProjectName(String projectName) {
-        return implRepo.getByProjectName(projectName);
+    public CIQDashboard assertAndGetByIdAndCategory(String id, String category) {
+        Optional<CIQDashboard> optional = repository.findByIdAndCategory(id, category);
+        if (optional.isPresent()) {
+            return optional.get();
+        } else {
+            throw new ResourceNotFoundException("Dashboard", "id", id);
+        }
+    }
+
+//    public List<CIQDashboard> getByProjectName(String projectName) {
+//        return implRepo.getByProjectName(projectName);
+//    }
+
+    public List<CIQDashboard> getByProjectName(String projectName, String category) {
+        return implRepo.getByProjectName(projectName, category);
+    }
+
+    public List<CIQDashboard> getByProjectId(String projectId, String category) {
+        return implRepo.getByProjectId(projectId, category);
     }
 
     public List<CIQDashboard> getByProjectNameList(List<String> projectNames) {
         return repository.findByProjectNameIn(projectNames);
     }
 
-    public CIQDashboard add(CIQDashboard dashboard){
+    public CIQDashboard add(CIQDashboard dashboard) {
         assertInsert(dashboard);
+        var filters = List.of(new Filter("projectName", Filter.OPType.equals,dashboard.getProjectName(),""));
+        var filterConfig = new FilterConfig("Project Filter", FilterConfig.LogicalOperatorType.AND,filters,true);
+        dashboard.getPages().forEach(page->{
+            page.getItems().forEach(item->{
+                if(item.getFilters() == null) {
+                  //  item.getFilters().add(filterConfig);
+                }else{
+                    item.getFilters().add(filterConfig);
+                }
+            });
+
+        });
         dashboard.setOpenAccess(false);
-        return repository.insert(dashboard);
+        return repository.save(dashboard);
     }
 
-    public CIQDashboard update(CIQDashboard dashboard){
+    public CIQDashboard update(CIQDashboard dashboard) {
         assertUpdate(dashboard);
-        CIQDashboard exist = assertAndGet(dashboard.getId());
+        CIQDashboard exist = assertAndGetByIdAndCategory(dashboard.getId(),dashboard.getCategory());
         dashboard.setCreatedUser(exist.getCreatedUser());
         dashboard.setCreatedDate(exist.getCreatedDate());
         return repository.save(dashboard);
     }
 
-    public void deleteById(String id){
+    public void deleteById(String id) {
         assertAndGet(id);
         implRepo.deleteByIds(Arrays.asList(id));
     }
 
-    public void deleteByIdIn(List<String> ids){
+    public void deleteByIdIn(List<String> ids) {
         implRepo.deleteByIds(ids);
     }
 
     private void assertUpdate(CIQDashboard dashboard) {
-        Optional<CIQDashboard> optional = getByNameIgnoreCase(dashboard.getName());
-        if (optional.isPresent() && !optional.get().getId().equals(dashboard.getId())){
-            throw new ResourceExistsException("Dashboard","name", dashboard.getName());
+        Optional<CIQDashboard> optional = getByNameIgnoreCaseAndProjectName(dashboard.getName(),dashboard.getProjectName());
+        if (optional.isPresent() && !optional.get().getId().equals(dashboard.getId())) {
+            throw new ResourceExistsException("Dashboard", "name", dashboard.getName());
         }
     }
 
     private void assertInsert(CIQDashboard dashboard) {
-        if (!StringUtils.isEmpty(dashboard.getId())){
+        if (!StringUtils.isEmpty(dashboard.getId())) {
             throw new InvalidDetailsException("Id should be null/empty");
         }
-        Optional<CIQDashboard> optional = getByNameIgnoreCase(dashboard.getName());
-        if (optional.isPresent()){
-            throw new ResourceExistsException("Dashboard","name", dashboard.getName());
+        Optional<CIQDashboard> optional = getByNameIgnoreCaseAndProjectName(dashboard.getName(),dashboard.getProjectName());
+        if (optional.isPresent()) {
+            throw new ResourceExistsException("Dashboard", "name", dashboard.getName());
         }
     }
 
     public void deleteByProjectName(String projectName) {
         repository.deleteByProjectName(projectName);
     }
+
+
 }

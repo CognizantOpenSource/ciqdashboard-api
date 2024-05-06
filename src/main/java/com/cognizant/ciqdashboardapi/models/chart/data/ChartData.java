@@ -28,13 +28,31 @@ import java.util.List;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ChartData {
     public String name;
     public Object value;
+    public String label;
+    public String link;
     public List<ChartData> children;
     public List<ChartData> series;
+
+    public ChartData(String name, Object value, String label, String link, List<ChartData> children, List<ChartData> series) {
+        this.name = name;
+        this.value = value;
+        this.label = name;
+        if(link!=null){
+            this.link = link;
+        }
+        else {
+            if (name != null) {
+                this.link = "newchart-xml-" + name.toLowerCase();
+            } else {
+                this.link = name;
+            }
+        }
+        this.children = children;
+        this.series = series;
+    }
 
     public String toString() {
         if (children == null && series == null)

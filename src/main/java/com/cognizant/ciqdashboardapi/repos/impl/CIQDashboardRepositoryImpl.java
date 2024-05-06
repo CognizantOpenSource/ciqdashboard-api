@@ -17,7 +17,10 @@
 package com.cognizant.ciqdashboardapi.repos.impl;
 
 import com.cognizant.ciqdashboardapi.models.CIQDashboard;
+import com.cognizant.ciqdashboardapi.models.DirectChartData;
+import com.cognizant.ciqdashboardapi.models.SourceMetrics;
 import com.cognizant.ciqdashboardapi.services.UserValidationService;
+import com.mongodb.client.result.DeleteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -29,6 +32,7 @@ import java.util.Optional;
 
 /**
  * CIQDashboardRepositoryImpl
+ *
  * @author Cognizant
  */
 
@@ -47,8 +51,22 @@ public class CIQDashboardRepositoryImpl {
         return Optional.ofNullable(dashboard);
     }
 
-    public List<CIQDashboard> getByProjectName(String projectName) {
-        Criteria criteria = Criteria.where("projectName").is(projectName);
+//    public List<CIQDashboard> getByProjectName(String projectName) {
+//        Criteria criteria = Criteria.where("projectName").is(projectName);
+//        if (!userValidationService.isAdmin()) criteria.orOperator(getCriteria());
+//        Query query = new Query().addCriteria(criteria);
+//        return template.find(query, CIQDashboard.class);
+//    }
+
+    public List<CIQDashboard> getByProjectName(String projectName, String category) {
+        Criteria criteria = Criteria.where("projectName").is(projectName).andOperator(Criteria.where("category").is(category));
+        if (!userValidationService.isAdmin()) criteria.orOperator(getCriteria());
+        Query query = new Query().addCriteria(criteria);
+        return template.find(query, CIQDashboard.class);
+    }
+
+    public List<CIQDashboard> getByProjectId(String projectId, String category) {
+        Criteria criteria = Criteria.where("projectId").is(projectId).andOperator(Criteria.where("category").is(category));
         if (!userValidationService.isAdmin()) criteria.orOperator(getCriteria());
         Query query = new Query().addCriteria(criteria);
         return template.find(query, CIQDashboard.class);
@@ -65,7 +83,14 @@ public class CIQDashboardRepositoryImpl {
         Criteria criteria = Criteria.where("_id").in(ids);
         if (!userValidationService.isAdmin()) criteria.orOperator(getCriteria());
         Query query = new Query().addCriteria(criteria);
-        template.remove(query, CIQDashboard.class);
+        DeleteResult deleteResult = template.remove(query, CIQDashboard.class);
+
+        if(deleteResult.wasAcknowledged()) {
+            Criteria criteria1 = Criteria.where("dashboardId").in(ids);
+            Query query1 = new Query().addCriteria(criteria1);
+            template.remove(query1, SourceMetrics.class);
+            template.remove(query1, DirectChartData.class);
+        }
     }
 
     private Criteria[] getCriteria() {

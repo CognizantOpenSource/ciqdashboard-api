@@ -46,17 +46,18 @@ public class ValidatorService {
             throw new InvalidDetailsException("GroupBy should have at least one field");
         }
         if (chartAggregation.getLevel() == 0 && !CollectionUtils.isEmpty(groupBy)) {
-            chartAggregation.setLevel(Math.min(groupBy.size(), 3));
+            chartAggregation.setLevel(Math.min(groupBy.size(), 5)); //changes
         }
-        if (!(chartAggregation.getLevel() > 0 && chartAggregation.getLevel() < 4)) {
-            throw new InvalidDetailsException("Level should be more than 0 and less than 4");
+        if (!(chartAggregation.getLevel() > 0 && chartAggregation.getLevel() < 6)) {//changes
+            throw new InvalidDetailsException("Level should be more than 0 and less than 6");
         }
         validateFields(fields, groupBy, Constants.GROUP_BY);
         validateFilters(filters, fields);
-
+        //System.out.println("level: "+chartAggregation.getLevel());
         List<String> distinct = chartAggregation.getGroupBy().stream().distinct().collect(Collectors.toList());
         chartAggregation.setGroupBy(distinct);
 
+        //System.out.println("chartAggregation: "+chartAggregation.toString());
         return chartAggregation;
     }
 

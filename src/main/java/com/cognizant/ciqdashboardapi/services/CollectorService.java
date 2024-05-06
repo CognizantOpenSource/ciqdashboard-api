@@ -21,6 +21,7 @@ import com.cognizant.ciqdashboardapi.db.GroupAggregateComponent;
 import com.cognizant.ciqdashboardapi.errors.InvalidDetailsException;
 import com.cognizant.ciqdashboardapi.models.aggregate.GroupAggregate;
 import com.cognizant.ciqdashboardapi.models.chart.data.ChartData;
+import com.cognizant.ciqdashboardapi.models.chart.data.ChartDataForFusion;
 import com.cognizant.ciqdashboardapi.models.chart.data.DataGridRow;
 import com.cognizant.ciqdashboardapi.models.db.view.BaseCollectionDetailsForView;
 import com.cognizant.ciqdashboardapi.models.db.view.FieldWithAlias;
@@ -101,6 +102,10 @@ public class CollectorService {
      */
     public List<ChartData> getChart(DrillDownChartAggregation chartAggregation, String collectionName) {
         return collectorRepository.getChart(chartAggregation, collectionName);
+    }
+
+    public List<ChartDataForFusion> getChartForFusion(DrillDownChartAggregation chartAggregation, String collectionName) {
+        return collectorRepository.getChartForFusion(chartAggregation, collectionName);
     }
 
     /**

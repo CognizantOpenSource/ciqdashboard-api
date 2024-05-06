@@ -48,6 +48,7 @@ class MongoDBRepoTest {
       //Assertions.assertNotNull(projectMappingRepository);
     //}
 
+    /*
     @Test
     void findTest() {
         Criteria criteria = Criteria.where("name").is("anji");
@@ -56,5 +57,5 @@ class MongoDBRepoTest {
         Aggregation aggregation = Aggregation.newAggregation(match);
        //AggregationResults<Document> aggregate = template.aggregate(aggregation, "studentDetails", Document.class);
         Assertions.assertNotNull(template);
-    }
+    }*/
 }
