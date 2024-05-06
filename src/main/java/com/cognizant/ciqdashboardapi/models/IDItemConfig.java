@@ -47,4 +47,6 @@ public class IDItemConfig {
     private Integer y;
 
     private List<FilterConfig> filters;
+    private String metricName;
+    private String metricCategory;
 }

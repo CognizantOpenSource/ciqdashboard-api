@@ -16,23 +16,43 @@
 
 package com.cognizant.ciqdashboardapi.models;
 
+import com.cognizant.ciqdashboardapi.models.chart.data.ChartData;
+import com.cognizant.ciqdashboardapi.models.chart.data.LinkedData;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 /**
  * IDChartItemDataDTO
+ *
  * @author Cognizant
  */
 
+//@Data
+//@EqualsAndHashCode(callSuper = false)
+//public class IDChartItemDataDTO extends IDChartItem {
+//    private Object data;
+//
+//    @JsonIgnore
+//    public void setChartItemDetails(IDChartItem chartItem){
+//        BeanUtils.copyProperties(chartItem, this);
+//    }
+//}
 @Data
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class IDChartItemDataDTO extends IDChartItem {
     private Object data;
-
+    private List<LinkedData> linkeddata;
+    private List<ChartData> chartData;
     @JsonIgnore
-    public void setChartItemDetails(IDChartItem chartItem){
+    public void setChartItemDetails(IDChartItem chartItem) {
         BeanUtils.copyProperties(chartItem, this);
     }
 }

@@ -23,6 +23,7 @@ import com.cognizant.ciqdashboardapi.errors.InvalidDetailsException;
 import com.cognizant.ciqdashboardapi.models.*;
 import com.cognizant.ciqdashboardapi.models.chart.DBSort;
 import com.cognizant.ciqdashboardapi.models.chart.data.ChartData;
+import com.cognizant.ciqdashboardapi.models.chart.data.ChartDataForFusion;
 import com.cognizant.ciqdashboardapi.models.chart.data.DataGridRow;
 import com.mongodb.client.DistinctIterable;
 import com.mongodb.client.MongoCursor;
@@ -194,6 +195,26 @@ public class CollectorRepositoryImpl {
         return chartDataAggregationResults.getMappedResults();
     }
 
+    public List<ChartDataForFusion> getChartForFusion(DrillDownChartAggregation chartAggregation, String collectionName) {
+        if (!getCollectionNames().contains(collectionName))
+            throw new InvalidDetailsException(String.format(COLLECTION_S_NOT_AVAILABLE_IN_DB, collectionName));
+//        List<Filter> filters = chartAggregation.getFilterList();
+        List<String> fields = chartAggregation.getGroupBy();
+        int level = chartAggregation.getLevel();
+        level = Math.min(level, fields.size());
+        if (fields.size() > level) fields = fields.subList(0, level);
+
+        Map<String, String> projection = new LinkedHashMap<>();
+        projection.put(underscoreId, returnFields.get(0));
+        projection.put(returnFields.get(1), returnFields.get(1));
+        if (level >= 3) projection.put(returnFields.get(2), returnFields.get(2));
+        String[] array = fields.toArray(new String[fields.size()]);
+
+        Aggregation aggregation = aggregationUtil.getAggregation(chartAggregation.getFilters(), array, returnFields, level, getFieldsAndTypesByCollection(collectionName));
+        AggregationResults<ChartDataForFusion> chartDataAggregationResults = template.aggregate(aggregation, collectionName, ChartDataForFusion.class);
+        return chartDataAggregationResults.getMappedResults();
+    }
+
     /**
      * Getting BarChart based on provided chart aggregation
      *
@@ -262,7 +283,7 @@ public class CollectorRepositoryImpl {
 //        List<Filter> filterList = filters.stream().flatMap(filterConfig -> filterConfig.getConfigs().stream()).collect(Collectors.toList());
         List<String> aggregateFields = validateAggregate.getFields();
         List<AggregationOperation> matchOperation = aggregationUtil.getMatchOperation(filters, getFieldsAndTypesByCollection(collectionName));
-        ChartData chartData = new ChartData("result", 0D, null, null);
+        ChartData chartData = new ChartData("result", 0D,"result",null, null, null);
         if (validateAggregate.getType().equals(Type.AggregateType.AVG) && aggregateFields.size() >= 2) {
             Double actual = dbAggregationUtilComponent.findFieldAggregate(matchOperation, collectionName, aggregateFields.get(0), SUM);
             Double expected = dbAggregationUtilComponent.findFieldAggregate(matchOperation, collectionName, aggregateFields.get(1), SUM);

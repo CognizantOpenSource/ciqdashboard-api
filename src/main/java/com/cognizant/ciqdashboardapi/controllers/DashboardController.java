@@ -18,9 +18,7 @@ package com.cognizant.ciqdashboardapi.controllers;
 
 import com.cognizant.ciqdashboardapi.errors.InvalidDetailsException;
 import com.cognizant.ciqdashboardapi.models.CIQDashboard;
-import com.cognizant.ciqdashboardapi.services.CIQDashboardProjectService;
-import com.cognizant.ciqdashboardapi.services.CIQDashboardService;
-import com.cognizant.ciqdashboardapi.services.UserValidationService;
+import com.cognizant.ciqdashboardapi.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,8 +29,10 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
+
 /**
  * DashboardController
+ *
  * @author Cognizant
  */
 
@@ -41,9 +41,11 @@ import static org.springframework.http.HttpStatus.*;
 @AllArgsConstructor
 public class DashboardController {
 
+    public UserValidationService userValidationService;
     private CIQDashboardService service;
     private CIQDashboardProjectService projectService;
-    public UserValidationService userValidationService;
+    private LOBService lobService;
+    private OrganizationService orgService;
 
     @GetMapping
     @ResponseStatus(OK)
@@ -54,19 +56,46 @@ public class DashboardController {
         return service.getAllByPermissions();
     }
 
+    @GetMapping("/category/{category}")
+    @ResponseStatus(OK)
+    @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.view')")
+    public List<CIQDashboard> getAllByCategory(@PathVariable("category") String category) {
+        if (userValidationService.isAdmin())
+            return service.getAllByCategory(category);
+        return service.getAllByPermissions();
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.view')")
-    public CIQDashboard get(@PathVariable String id) {
-        return service.assertAndGet(id);
+    public CIQDashboard get(@PathVariable String id, @RequestParam("category") String category) {
+        return service.assertAndGetByIdAndCategory(id, category);
     }
+
+
+//    @GetMapping("/search")
+//    @ResponseStatus(OK)
+//    @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.view')")
+//    public List<CIQDashboard> getByProjectName(@RequestParam String projectName) {
+//        validateProjectAccess(projectName, "PRJ");
+//        return service.getByProjectName(projectName);
+//    }
+//
+//    @PostMapping
+//    @ResponseStatus(CREATED)
+//    @Validated
+//    @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.create')")
+//    public CIQDashboard add(@Valid @RequestBody CIQDashboard dashboard) {
+//        validateProjectAccess(dashboard.getProjectName());
+//        return service.add(dashboard);
+//    }
 
     @GetMapping("/search")
     @ResponseStatus(OK)
     @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.view')")
     public List<CIQDashboard> getByProjectName(@RequestParam String projectName) {
-        validateProjectAccess(projectName);
-        return service.getByProjectName(projectName);
+        validateProjectAccess(projectName, "PRJ");
+        return service.getByProjectName(projectName, null);
     }
 
     @PostMapping
@@ -74,7 +103,7 @@ public class DashboardController {
     @Validated
     @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.create')")
     public CIQDashboard add(@Valid @RequestBody CIQDashboard dashboard) {
-        validateProjectAccess(dashboard.getProjectName());
+        validateProjectAccess(dashboard.getProjectName(), dashboard.getCategory());
         return service.add(dashboard);
     }
 
@@ -83,8 +112,8 @@ public class DashboardController {
     @Validated
     @PreAuthorize("hasPermission(#DashboardId, 'Dashboard','ciqdashboard.update')")
     public CIQDashboard update(@Valid @RequestBody CIQDashboard dashboard) {
-        validateProjectAccess(dashboard.getProjectName());
-        validateUpdateOpenAccess(dashboard, service.assertAndGet(dashboard.getId()));
+        validateProjectAccess(dashboard.getProjectName(), dashboard.getCategory());
+        validateUpdateOpenAccess(dashboard, service.assertAndGetByIdAndCategory(dashboard.getId(), dashboard.getCategory()));
         return service.update(dashboard);
     }
 
@@ -102,21 +131,33 @@ public class DashboardController {
         service.deleteByIdIn(ids);
     }
 
-    private void validateProjectAccess(String projectName) {
-        projectService.assertAndGetByName(projectName);
-        if (!userValidationService.isAdmin()) {
-            List<String> names = userValidationService.getCurrentUserProjectNames();
-            if (!names.contains(projectName)) {
-                throw new AccessDeniedException(String.format("Project access not found with projectName:%s", projectName));
+    private void validateProjectAccess(String projectName, String category) {
+        if (category.equalsIgnoreCase("PRJ")) {
+            projectService.assertAndGetByName(projectName);
+            if (!userValidationService.isAdmin()) {
+                List<String> names = userValidationService.getCurrentUserProjectNames();
+                if (!names.contains(projectName)) {
+                    throw new AccessDeniedException(String.format("Project access not found with projectName:%s", projectName));
+                }
             }
+        } else if (category.equalsIgnoreCase("LOB")) {
+            lobService.assertAndGetByName(projectName);
+//            if (!userValidationService.isAdmin()) {
+//                List<String> names = userValidationService.getCurrentUserProjectNames();
+//                if (!names.contains(projectName)) {
+//                    throw new AccessDeniedException(String.format("Project access not found with projectName:%s", projectName));
+//                }
+//            }
+        } else if (category.equalsIgnoreCase("ORG")) {
+            orgService.assertAndGetByName(projectName);
         }
     }
 
-    private void validateUpdateOpenAccess(CIQDashboard newDashboard, CIQDashboard existDashboard){
-        if (!userValidationService.isAdmin()){
+    private void validateUpdateOpenAccess(CIQDashboard newDashboard, CIQDashboard existDashboard) {
+        if (!userValidationService.isAdmin()) {
             Boolean openAccess = newDashboard.getOpenAccess();
-            if ((null == openAccess || false==openAccess)
-                    && !existDashboard.getCreatedUser().equals(userValidationService.getCurrentUserEmailId())){
+            if ((null == openAccess || false == openAccess)
+                    && !existDashboard.getCreatedUser().equals(userValidationService.getCurrentUserEmailId())) {
                 throw new InvalidDetailsException("Not allowed to update openAccess for the dashboard");
             }
         }

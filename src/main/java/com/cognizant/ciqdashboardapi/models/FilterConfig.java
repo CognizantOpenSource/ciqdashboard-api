@@ -35,4 +35,14 @@ public class FilterConfig {
     public enum LogicalOperatorType{
         OR, AND
     }
+
+    public FilterConfig() {
+    }
+
+    public FilterConfig(String name, LogicalOperatorType logicalOperator, List<Filter> configs, Boolean active) {
+        this.name = name;
+        this.logicalOperator = logicalOperator;
+        this.configs = configs;
+        this.active = active;
+    }
 }

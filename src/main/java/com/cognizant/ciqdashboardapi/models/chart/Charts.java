@@ -41,6 +41,10 @@ public class Charts {
         return ChartData.builder();
     }
 
+    public static ChartData.ChartDataBuilder treeMapInteractive() {
+        return ChartData.builder();
+    }
+
     public static ChartData.ChartDataBuilder bar() {
         return ChartData.builder();
     }
@@ -67,6 +71,10 @@ public class Charts {
 
     public static IDBChart.IDBChartBuilder treeMapChart(ChartConfiguration config) {
         return chart(config, ChartType.treeMap);
+    }
+
+    public static IDBChart.IDBChartBuilder treeMapInteractiveChart(ChartConfiguration config) {
+        return chart(config, ChartType.treeMapInteractive);
     }
 
     public static IDBChart.IDBChartBuilder barChart(ChartConfiguration config) {
