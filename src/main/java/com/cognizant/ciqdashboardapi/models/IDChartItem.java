@@ -57,4 +57,9 @@ public class IDChartItem extends BaseModel {
     private String source;
     @NotEmpty(message = "Options details should not be empty/null")
     private Map<String, Object> options;
+    private String metricName;
+    private String metricCategory;
+    private String category;
+    private String dashboardId;
+    private String layerId;
 }

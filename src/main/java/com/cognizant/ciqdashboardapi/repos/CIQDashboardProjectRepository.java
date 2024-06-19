@@ -26,6 +26,7 @@ import java.util.Optional;
 
 /**
  * CIQDashboardProjectRepository
+ *
  * @author Cognizant
  */
 
@@ -38,4 +39,8 @@ public interface CIQDashboardProjectRepository extends MongoRepository<CIQDashbo
     List<CIQDashboardProject> findByIds(List<String> ids, Sort sort);
 
     Optional<CIQDashboardProject> findByNameIgnoreCase(String name);
+
+    List<CIQDashboardProject> findByLobId(String lobId);
+
+    List<CIQDashboardProject> findByOrgId(String orgId);
 }

@@ -55,7 +55,7 @@ public class GroupAggregateComponent {
     public List<ChartData> getGroupAggregate(List<FilterConfig> filters, GroupAggregate groupAggregate, Set<String> fields, String collectionName) {
         List<Double> groupResults = new ArrayList<>();
         String name = StringUtils.isEmpty(groupAggregate.getName()) ? "result" : groupAggregate.getName();
-        ChartData chartData = new ChartData(name, 0D, null, null);
+        ChartData chartData = new ChartData(name, 0D,name,null, null, null);
         groupAggregate.getGroups().forEach(group -> {
             List<Double> fieldResults = new ArrayList<>();
             group.getAggregates().forEach(fieldAggregate -> {

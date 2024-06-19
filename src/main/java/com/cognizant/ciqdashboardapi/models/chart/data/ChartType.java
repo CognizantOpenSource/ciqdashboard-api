@@ -31,7 +31,9 @@ public enum ChartType {
     pie("pie-chart"),
     treeMap("tree-map"),
     card("card"),
-    dataGrid("data-grid");
+    dataGrid("data-grid"),
+    treeMapInteractive("tree-map-interactive");
+
 
     private String type;
 

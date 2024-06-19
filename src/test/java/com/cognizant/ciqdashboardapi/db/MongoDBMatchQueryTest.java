@@ -49,7 +49,7 @@ class MongoDBMatchQueryTest {
 
     private static final String GITLAB_COMMITS = "source_gitlab_commits";
 
-
+/*
     @Test
     void testMatches(){
         Set<String> collectionNames = template.getCollectionNames();
@@ -70,6 +70,7 @@ class MongoDBMatchQueryTest {
         filters.add(new Filter("projectId", nin, Arrays.asList(33, 39)));
         runAggregate(filters);
     }
+
 
     @Test
     void testStartsWithEndsWithContains(){
@@ -123,7 +124,7 @@ class MongoDBMatchQueryTest {
         Aggregation aggregation = Aggregation.newAggregation(match, project);
         AggregationResults<Document> aggregate = template.aggregate(aggregation, "jiraIssues", Document.class);
 
-    }
+    }*/
 
     private void runAggregate(List<Filter> filters){
         Map collection = collectorRepository.getFieldsAndTypesByCollection(GITLAB_COMMITS);

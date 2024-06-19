@@ -19,6 +19,7 @@ package com.cognizant.ciqdashboardapi.models;
 import com.cognizant.ciqdashboardapi.base.models.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -28,17 +29,19 @@ import java.util.List;
 
 /**
  * CIQDashboard - Refers dashboards collection in mongodb
+ *
  * @author Cognizant
  */
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @Document(collection = "dashboards")
 public class CIQDashboard extends BaseModel {
+    @Id
     private String id;
     @NotBlank(message = "Name should not be empty/null")
     @Size(min = 4, message = "Name minimum characters should be '4' ")
-    @Indexed(unique = true)
+   // @Indexed(unique = true)
     private String name;
     @NotBlank(message = "ProjectName should not be empty/null")
     @Size(min = 4, message = "ProjectName minimum characters should be '4' ")
@@ -46,4 +49,6 @@ public class CIQDashboard extends BaseModel {
     private boolean active;
     private Boolean openAccess = false;
     private List<IDPageConfig> pages;
+    private String category;
+    private String projectId;
 }

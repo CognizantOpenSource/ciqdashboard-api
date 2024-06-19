@@ -36,5 +36,13 @@ public interface CIQDashboardRepository extends MongoRepository<CIQDashboard, St
 
     void deleteByProjectName(String projectName);
 
-    Optional<CIQDashboard> findByNameIgnoreCase(String name);
+   // Optional<CIQDashboard> findByNameIgnoreCaseAndProjectId(String name,String projectId);
+
+    Optional<CIQDashboard> findByNameAndProjectName(String name,String projectName);
+
+    Optional<CIQDashboard> findByIdAndProjectId(String Id,String projectId);
+
+    List<CIQDashboard> findByCategory(String category);
+
+    Optional<CIQDashboard> findByIdAndCategory(String id, String category);
 }

@@ -28,4 +28,6 @@ import java.util.List;
 
 public interface IDChartItemRepository extends MongoRepository<IDChartItem, String> {
     void deleteByIdIn(List<String> ids);
+
+    List<IDChartItem> findByCategory(String category);
 }
